@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Rai Phu Pha Camping and Cafe — คำนวณต้นทุนเครื่องดื่ม</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;600&family=Rye&family=Cabin+Sketch:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;600&family=Rye&family=Cabin+Sketch:wght@400;700&display=swap" rel="stylesheet"></noscript>
+
+<style>
+  :root {
+    --cream: #F5EFE0;
+    --brown-deep: #2C1A0E;
+    --brown-mid: #5C3D1E;
+    --brown-light: #A0714F;
+    --gold: #C9A84C;
+    --gold-light: #E8D5A0;
+    --white: #FDFAF4;
+    --green: #4A7C59;
+    --red: #B84C3C;
+    --blue: #3A6B9A;
+    --shadow: rgba(44,26,14,0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+  body { font-family: 'Sarabun', system-ui, -apple-system, sans-serif; background: var(--cream); color: var(--brown-deep); min-height: 100vh; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* HEADER */
+  .header { background: var(--brown-deep); color: var(--cream); padding: 0; position: relative; overflow: hidden; width: 100%; max-width: 100%; box-sizing: border-box; }
+  .header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--gold), var(--brown-light), var(--gold)); }
+  .header-inner { width: 100%; padding: 28px 40px 24px; display: flex; align-items: center; gap: 18px; box-sizing: border-box; }
+  .header-icon { font-size: 38px; }
+  .header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 900; color: var(--gold-light); line-height: 1.2; }
+  .header p { font-size: 12px; color: var(--brown-light); margin-top: 3px; font-weight: 300; letter-spacing: 0.5px; }
+
+  /* NAV */
+  .nav-tabs-outer { background: var(--brown-mid); width: 100%; max-width: 100%; box-sizing: border-box; }
+  .nav-tabs { width: 100%; max-width: 100%; display: flex; gap: 0; overflow-x: auto; padding: 0 40px; box-sizing: border-box; }
+  .nav-tab { padding: 13px 20px; font-family: 'Sarabun', sans-serif; font-size: 13px; font-weight: 500; color: var(--gold-light); cursor: pointer; border: none; background: transparent; white-space: nowrap; opacity: 0.6; transition: all 0.2s; border-bottom: 3px solid transparent; letter-spacing: 0.3px; }
+  .nav-tab:hover { opacity: 0.9; }
+  .nav-tab.active { opacity: 1; border-bottom-color: var(--gold); color: var(--gold); }
+
+  /* MAIN */
+  .main { width: 100%; max-width: 100%; padding: 28px 40px; position: relative; z-index: 1; box-sizing: border-box; }
+  .panel { display: none; animation: fadeIn 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* SECTION TITLE */
+  .section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--brown-deep); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--gold-light); display: flex; align-items: center; gap: 10px; }
+  .sub-section { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--brown-mid); margin: 24px 0 12px; display: flex; align-items: center; gap: 8px; }
+
+  /* NOTICE */
+  .notice { background: #FBF5E8; border: 1.5px solid var(--gold-light); border-radius: 8px; padding: 11px 15px; font-size: 13px; color: var(--brown-mid); margin-bottom: 18px; display: flex; gap: 8px; align-items: flex-start; }
+  .notice-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .notice-blue { background: #EAF1F9; border-color: #B5CFEA; }
+
+  /* TABLES */
+  .ing-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; box-shadow: 0 2px 14px var(--shadow); margin-bottom: 24px; }
+  .ing-table { width: max-content; min-width: 100%; border-collapse: collapse; background: var(--white); }
+  .ing-table thead tr { background: var(--brown-deep); color: var(--gold-light); }
+  .ing-table th { padding: 12px 16px; font-family: 'Sarabun', sans-serif; font-weight: 600; font-size: 12px; text-align: left; letter-spacing: 0.5px; }
+  .ing-table tbody tr { border-bottom: 1px solid var(--gold-light); transition: background 0.15s; }
+  .ing-table tbody tr:last-child { border-bottom: none; }
+  .ing-table tbody tr:hover { background: #FBF5E8; }
+  .ing-table td { padding: 11px 16px; font-size: 13px; vertical-align: middle; }
+  .ing-table thead tr.compound-header { background: #3A4A2E; }
+  .compound-tag { display: inline-block; background: var(--green); color: white; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.3px; vertical-align: middle; }
+  .derived-tag { display: inline-block; background: var(--blue); color: white; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.3px; vertical-align: middle; }
+  .pkg-tag { display: inline-block; background: #7A5C9A; color: white; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.3px; vertical-align: middle; }
+  .garnish-tag { display: inline-block; background: #8B6914; color: white; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.3px; vertical-align: middle; }
+  .optional-tag { display: inline-block; background: #C0A060; color: white; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; margin-left: 6px; letter-spacing: 0.3px; vertical-align: middle; }
+  .ing-cost-val.pkg { color: #7A5C9A; }
+  .ing-cost-val.garnish { color: #8B6914; }
+
+  /* INPUTS */
+  .price-input { width: 90px; padding: 6px 10px; border: 1.5px solid var(--gold-light); border-radius: 7px; font-family: 'Sarabun', sans-serif; font-size: 13px; color: var(--brown-deep); background: var(--cream); text-align: right; transition: border-color 0.2s, box-shadow 0.2s; -moz-appearance: textfield; }
+  .price-input::-webkit-outer-spin-button, .price-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .price-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.15); }
+  .price-input:disabled { background: #EDE8DF; color: var(--brown-light); cursor: not-allowed; }
+
+  .cpu-cell { text-align: right; font-size: 13px; font-weight: 600; color: var(--brown-deep); min-width: 100px; }
+  .cpu-cell.derived { color: var(--blue); }
+  .cpu-cell.zero { color: var(--brown-light); font-weight: 400; }
+
+  /* COMPOUND RECIPE CARD */
+  .compound-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .compound-card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 14px var(--shadow); border-top: 4px solid var(--green); }
+  .compound-card-header { background: #F0F5EE; padding: 14px 18px 10px; }
+  .compound-card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: #2E4A28; }
+  .compound-card-yield { font-size: 12px; color: var(--green); font-weight: 600; margin-top: 3px; }
+  .compound-card-body { padding: 12px 18px 16px; }
+  .compound-ing-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--gold-light); font-size: 13px; }
+  .compound-ing-row:last-child { border-bottom: none; }
+  .compound-ing-name { flex: 1; color: var(--brown-mid); }
+  .compound-ing-amount { color: var(--brown-light); font-size: 12px; min-width: 80px; text-align: right; }
+  .compound-ing-cost { font-weight: 600; color: var(--brown-deep); min-width: 70px; text-align: right; }
+  .compound-total { margin-top: 10px; padding-top: 10px; border-top: 2px solid var(--gold-light); display: flex; justify-content: space-between; align-items: center; }
+  .compound-total-label { font-size: 12px; color: var(--brown-light); }
+  .compound-total-value { font-family: 'Sarabun', sans-serif; font-size: 18px; font-weight: 700; color: var(--green); }
+  .compound-cpu { font-size: 12px; color: var(--blue); font-weight: 600; margin-top: 4px; text-align: right; }
+
+  /* MENU GRID */
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+  .menu-card { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 14px var(--shadow); border: 2px solid transparent; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; cursor: grab; user-select: none; }
+  .menu-card.dragging { opacity: 0.45; cursor: grabbing; transform: scale(0.97); box-shadow: 0 8px 28px var(--shadow); border-color: var(--gold); }
+  .menu-card.drag-over { border-color: var(--gold); border-style: dashed; background: #FBF5E8; }
+  .drag-hint { font-size: 11px; color: var(--brown-light); text-align: right; margin-bottom: 10px; opacity: 0.7; }
+  .card-header { padding: 14px 18px 11px; background: linear-gradient(135deg, var(--brown-deep) 0%, var(--brown-mid) 100%); display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; min-height: 68px; }
+  .card-header-text { flex: 1; z-index: 4; position: relative; }
+  .card-cost-badge { z-index: 4; position: relative; flex-shrink: 0; margin-left: 8px; }
+  .menu-card:hover { transform: translateY(-3px); box-shadow: 0 6px 24px var(--shadow); border-color: var(--gold-light); }
+  .card-header { padding: 14px 18px 11px; background: linear-gradient(135deg, var(--brown-deep) 0%, var(--brown-mid) 100%); display: flex; justify-content: space-between; align-items: flex-start; }
+  .card-menu-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--gold-light); line-height: 1.3; }
+  .card-category { font-size: 11px; color: var(--brown-light); margin-top: 2px; letter-spacing: 0.5px; }
+  .card-cost-badge { background: var(--gold); color: var(--brown-deep); font-family: 'Sarabun', sans-serif; font-weight: 700; font-size: 14px; padding: 4px 11px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-left: 8px; }
+  .card-body { padding: 13px 18px 15px; position: relative; z-index: 4; }
+  .ingredients-list { list-style: none; }
+  .ingredients-list li { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 12px; border-bottom: 1px dashed var(--gold-light); gap: 6px; }
+  .ingredients-list li:last-child { border-bottom: none; }
+  .ing-label { color: var(--brown-mid); flex: 1; }
+  .ing-amount { color: var(--brown-light); font-size: 11px; min-width: 55px; text-align: right; }
+  .ing-cost-val { font-weight: 600; color: var(--brown-deep); min-width: 55px; text-align: right; font-size: 12px; }
+  .ing-cost-val.zero { color: var(--brown-light); font-weight: 400; }
+  .ing-cost-val.derived { color: var(--blue); }
+  .card-footer { margin-top: 11px; padding-top: 9px; border-top: 1.5px solid var(--gold-light); display: flex; justify-content: space-between; align-items: center; }
+  .cost-label { font-size: 11px; color: var(--brown-light); font-weight: 500; }
+  .cost-total { font-family: 'Sarabun', sans-serif; font-size: 19px; font-weight: 700; color: var(--brown-deep); }
+  .cost-total .baht { font-size: 13px; font-family: 'Sarabun', sans-serif; margin-left: 2px; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 15px; }
+  .pricing-card { background: var(--white); border-radius: 12px; padding: 16px 18px; box-shadow: 0 2px 12px var(--shadow); border-left: 4px solid var(--gold); }
+  .pricing-card-name { font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: 700; color: var(--brown-deep); margin-bottom: 11px; }
+  .pricing-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; font-size: 13px; }
+  .pricing-label { color: var(--brown-light); }
+  .pricing-value { font-weight: 600; color: var(--brown-deep); }
+  .sell-price-input { width: 100%; padding: 7px 11px; border: 1.5px solid var(--gold-light); border-radius: 7px; font-family: 'Sarabun', sans-serif; font-size: 14px; color: var(--brown-deep); background: var(--cream); margin-top: 6px; text-align: right; -moz-appearance: textfield; }
+  .sell-price-input::-webkit-outer-spin-button, .sell-price-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .sell-price-input:focus { outline: none; border-color: var(--gold); }
+  .margin-bar { margin-top: 9px; height: 6px; background: var(--gold-light); border-radius: 3px; overflow: hidden; }
+  .margin-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--green)); border-radius: 3px; transition: width 0.5s ease; }
+  .margin-pct { font-size: 11px; font-weight: 600; text-align: right; margin-top: 3px; }
+
+  /* FILTER */
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+  .filter-btn { padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--gold-light); background: transparent; font-family: 'Sarabun', sans-serif; font-size: 12px; color: var(--brown-mid); cursor: pointer; transition: all 0.2s; font-weight: 500; }
+  .filter-btn:hover { border-color: var(--gold); }
+  .filter-btn.active { background: var(--brown-deep); border-color: var(--brown-deep); color: var(--gold-light); }
+
+  /* SAVE BTN */
+  .save-btn { background: var(--brown-deep); color: var(--gold-light); border: none; padding: 9px 22px; border-radius: 8px; font-family: 'Sarabun', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.3px; }
+  .save-btn:hover { background: var(--brown-mid); transform: translateY(-1px); }
+  .export-btn { background: var(--green); color: white; border: none; padding: 9px 18px; border-radius: 8px; font-family: 'Sarabun', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.3px; }
+  .export-btn:hover { background: #3a6347; transform: translateY(-1px); }
+  .import-btn { background: var(--blue); color: white; border: none; padding: 9px 18px; border-radius: 8px; font-family: 'Sarabun', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.3px; }
+  .import-btn:hover { background: #2d5580; transform: translateY(-1px); }
+
+  ::-webkit-scrollbar { width: 7px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 4px; }
+
+  @media (max-width: 768px) {
+    .header-inner { padding: 18px 16px; }
+    .nav-tabs { padding: 0 12px; }
+    .main { padding: 16px; }
+    .menu-grid, .pricing-grid, .compound-cards { grid-template-columns: 1fr; }
+    .ing-table th, .ing-table td { padding: 8px 10px; font-size: 12px; }
+    .price-input { width: 100%; max-width: 80px; font-size: 12px; }
+  }
+
+    .header-inner { padding: 18px 16px; }
+    .main { padding: 16px; }
+    .nav-tabs { padding: 0 12px; }
+    .header-inner { padding: 18px 16px; }
+    .main { padding: 16px; }
+    .nav-tabs { padding: 0 12px; }
+    .menu-grid, .pricing-grid, .compound-cards { grid-template-columns: 1fr; }
+  }
+
+  .col-check { width: 32px; min-width: 32px; max-width: 32px; text-align: center; padding: 4px !important; }
+  .ing-check { width: 18px; height: 18px; cursor: pointer; accent-color: var(--green); }
+  .ing-table tr.row-checked td { background: #EEF7EE; }
+  .ing-table tr.row-checked td:first-child { border-left: 3px solid var(--green); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPUAAAB4CAYAAAAqn7RjAAA5eElEQVR42u19d7hcVbn+++2ZOTkJ6QkkBAKhSEKTXqSjgIAgKMIVK6LgxZ/iFUXAjtfrpVgQQa7IpapgQQSRS1OKtNB7CSFAEkIqpOeUmfl+f6x3nflmnb1n9swpOTnZ63n2c87M7LLW2l+vQDaykY1sZCMb2chGNrKRjWxkIxvZyEY2spGNbGQjG9nIRjaykY1sZCMb2chGNrLR5JD1efGqKgAgIur/79oYficimoFJNjKkHoCIG7PuppA1Q/JsZEi9dhA5ahZpm97IDNmzMUBGNFgZ9NqQCKxUkCAhZCMbGafuRZG7v/ZTM46ejQyp+x+Z6yGf/136SAIQAJoheDYypK6PzGkNYFIHSe19JOazv7ZXkDJD7mxkSN0dkRvhpEncN+5+UQIRKPOwBrleRcwM0bMx6JE6RrRuxi0Vt14lckYeWeshlKq2AIhEpE1Vc73EtcP1pF5fRgCysU4hdYDMVtfVJtYZpydHIlI0zxoBYDiAsQA2AjAxOMYB2BDAMADfEJHbVbUAoJhyj6OY7zzn74/3nakMg3ioquTXIR1ZYv72FLDyItKhqpsB+A6AbYiwYwGMBtBa5/qTVPWOOvPRCh5IIvLSt97rYnzCXHqM06qamnBkBKB/R36AIXMI2FpD963FjT03DLm8BbiciKxR1QkArgewTwwClIiEgu4GshyA3UkEFgX6NWK4s6rqKAD7k9u3AhjC//8O4DGjww90JNBGfsvCbddDpCZnTuNmQoIY7a/PwbmKOlM+dwqA3wN4H4AO3qNg7pnjEYrK/vfNAWwjIgu5hiTEjkSkU1V3APC3mN/bRORRErXSYBULM67dD/qViOYHystuAKFDETwi0nR4hFDVyQD2BLAzgM147lIACwHMB7AGwCYA/h8Rs0hkFgD/B+BuAMt4v80AfJ5/1SCut35vC+AB/l8PIYXPUqNH5wBMCqSAvtKL0xJORbJRsUf2Gy+2Z8g9SDl1yhhtaxyzQBlRT+3kvcYBOALARwEcQLE2zSgZsfcsEbkgZp4TAHzJIGHZEJSxDQC8Juz5tiRuaYyAWmePEPN/M2K11iGsPRLZM5F8ECK1AeK61B3dfceeM0NVdwbwKQAfI9e1YnLZAHy5jth+tohcQEt2gQRjFUXmw8z5JZ5fAvATAFeqar4Gl7XPawGwBMDLABbzt/EAXjLEohZHFXNEMc+0+r61A5TrIGy419ZNZ20U1saQ5l5a6zurdmUIvo7rVimPKDjyqtpq7rOnqv5WVddoZRRVtVNVyzxK/K6stcf/8BlDVHWoecYJqjqb53Sa8x9V1cPNevK8Pscjr6oFVW3h/3l+P05VtzQGQf+cnDknitkL/7uk2Nt8jd/zCff3e1xI8f7sPeyac8H7kgbfdZYA01t69VrSnxudX5eoTX35HACfQ8XlVEpYi+VW0wHcT06Zg/NHjwQwG8ClADr5jDYa0H4I4NO8tkipZhmA8wFcIiIrSGSKRgKIkgx1qjqEEkAOzsctgVSxjMa6ULeORMTbCvKURt4DYAsAmwLYGM6vPgLABpQGVtGGsBzAmwBeBPC4iMxKkCq8EaukqlsCOArArpQiCpQqHgDwJxFZTOQv8Zqyebf5gCOX0Hg8QSzXtrCTcfV1k0vbo2Cu/7Sqzgk4s+fCljMXzTn/p6pHWQ4cM6+hhgudoqpvmfv7cYuq7sTzWlS11XDhQnC/Kap6tKp+Q1X/V1XvJHd/SVVnkfvP5lpmq+o8Vf0xry0EnDBS1YNU9SJVfUhV39XmxhLeoxBIBTlGxUFVv6yqC2rc4wVV3d/s1RBV3VFVt1LV4QnvO+TguRoSicSlsMadm2HTuonQOY8sqrqpqv4xBplDsdoi4XRVPdaLowYIW3h48bjF6+aqeru53ovbM1X1M15kJjIXLDLw+01IEP6uqouaQLp/mfuGaseDwbnlYK1xwxI4v5ZXVXWUURms2H9RsPYOHiX+9fdYpKr7cM0bqOrjqrpcVZ9X1b+p6s9U9fOq+j4+y4rnuUDlaDFEJooTxwPiliH1QDGUNfESuvzNqnoMgJ9T3CwlGHLUfP8WgAsAXEUR2SNuyYjK1vjToqpfBvB9iuMlY6W+EcBXRORtD3wU0/31ZYrqXwPwEQCTA5E6bRGKIlWJFjh3mzWW5Y2KUTafcwDmAHgYwLsU34s8Z0OqDsMCI2FbMCfvP/8KgK/y+sgY2sD1Fnh9J0Xyn6vqByner6Lovz0POz4mIjeSOJcdKOjGfMY8r1ZYRLcGQK2ErTUVE5+NtcelQ4NYwXDW7xuO1BGI2l7ctgas61R1q4AT5GKeJeY5J8dw5xL/nsRzhhmOJsH1Hw4khaKRJF5V1ctU9YuqeoSq7q6qu6nqh1T1TFW92XD1Baq6kVl7ns8ZrqpPmvuXzJ6cnbDfY1X1zYBjK7npGD9//p2gqnPNeSXOfYWqnqGqu6rq3WZ//DlH8foneL7/rYN/F6vqewPjWo7q0AJV/Qelg8/yGRsmGf4sl86waeC4tNJS14KItNPnfDmcz9lzmkIM1facaz6cj/laY5QqGs4czkHICXIA7gLwFICd0D1MczMCUimQCJRcWgA8DeB1AFOMscy7ff5LRK7mnCbDxZZPIld+C8CPye0OpQGsIzQIkXgM5z29T93P80zquH8F8Duz3g3SSEPk0ofDBeKUjNuqAODPIvIzzv1GAO83+5Lj53/BJb1YN5v/OwvALK+2iEhZVTeBC60dz+vfbySV+ar6EoBHADwB4FkAs0WkyHt4N2I2BghSawrre54I/R64WOzdYizYoTiWB/BPAKeLyAtE5hLFxHpzUD5zjqo+AGAXAped0178XEa8TzgPYC6AJ416YNf1SVXdG8DeROjQWNcJF/d9hoi8zvlbogCDxBHFc/v8sQCO5HEUgC8CWIDuce8w9wr3/ZCAYPnxmnG9LUclhFb5jDW0vo8L7unVjldFZCVVFjH7OSZ4Vif3cVMeh/L7dwC8qqqPwcUDzEFMIklmCV97SJ2Ga3So6iEA/gxgFBHl7wAOgkuCsIEkHmgvB/B1Ak+L0SnTuOy83iYA3gjO93+nEgjfQXxct5ADvQjguBgp4hAe9jsrLRQAHAtgB+qob5AjhcRlBF1v/yJH3y+G2HyY353Ae+QTkNobq0pMMNmhBgFQSgtDAKykNPAHuslm890MRXwE20sx72B/Pn8e1zoaLsxWAi4sJFh78bheRN40uetVInqG2PGUe60iNICiqh4K4Dy4BIv3k7v9Ac4nWzZAHJG6f1VEvghgNUXUzgRunIjQqPhEXzH7YbncRACb8JxaBGJhAMBJ/lkxXNcTqCKArQEcSp9vyGXz5FT7i8inSCROp4HKRsQVARwN4IO877AY4pYzzy5SdJ6UQAC3B+A9ENPhYum/Cueznssc9EmGWMEYEAHgBXPfMonufgD+ApdA834i+fFE8igQ4b1hcA5VFWQGsnUHqT0gvwzgSBH5kojcw98uIWJ5vTpHrvkpEbnYiHa+QEGj4Yb+3NeNiGlLFm1Abh0H9FYcX2G+LxERc3ABIPcBuAEueKNUQxWY3N1OpDkA74jIhQDmqarXlS8F8GjArf19DqMOXohZZ9ecuU+tgUgPI5F8EMDuItIpIi8QuW42CA4A0wIJxIeoriA39+JMCS6YZT6AU0RkNs9dJSI3Argixu7iCcRsAIusOywTv9cyUpv43lpIDRGZwxRGz2G+QPGuZLjMWwA+IiJ/okioYPkhf6QQu6ueTb1xvuEG5QARdkohzi8zyFwA8AyAr8BliR0C4BMADgbwX6iO37bzHRZDLJR7OFFEiiKySkTaiYxjEySBTYnUUYxNIhwdMfYHTyhGwbmuNlTVqQDuIaIPBfB1EtQtE4jc2yRCFr6mALhORN4xtg/hOZ3B8+18XxGR1UnG1swiPvAMZV2IQkqcA7CGbqlvB5bvV8ihH2d4ZifSlflNswdLAcygfhdes6vhEpIAxEv93GnRvkRElnIdBbOOP8L5tEeie2LE0JhneDH0XFXtAHAHpYdPkNhoQJgVQDsJREsN8b/MNb1Njjo+0Iu9sW5v6vHDaSH3RO9IGrRGBYjo92M2nO88ou4ewaW0tpMYFI36U/aResE6/Fyeb5BQZ5y6n54jdZA9zBA6n0DUQaR4GsARROgWfl+uI26nFsuoy76QMN+dOJdijXWsoWHvGBH5EYA26qLfA3ALgB34jHa4AJC40RIAtKJSAmkjAF+GK7BwA41iSECEJ4j4EbqXTsrBBZwojZPL4TwNSambZaofmxgOXOZc/xuVYJMQjmZSohAj7i+z743XFKlSTA0kN69qdfLdI0PsAYTUBKB6+cEeyNppODmOwD+EQHqMcfkU/X17AaHteU8GOqUH6o0B7MZnhX5s76t+CcDhInIX5wgmdTxN8fteVb2HCDnWAHbJHIUEC7xHRh8R5v3v5eA+BQCvArgGFb9zMXiGXYPn1lcAuJPX2+QUCewV58Glt67mOTvRDhCXXtnN8h2UqvJcusR7TEkQvReh4pnQTKdedwxlYsS0jeDCNX3Y5GPUoWcTWTr7wArqudlrBFjruvIBGYfUkDwEwAoRWWSs8CUjhnZQ3D4ILvAij4prKU/CleSC8jrjveTyrTzP3iNHhHyJ6sl8OI9BjhzV6/k5OJ9yPnj/qwCcYhDb53XbcNmzROQcuCCdZ3ltMeY9+L17OURgJGSGwfn3RyDeLTbLGMnifOnZWIs6dQqGLkVV/ZYRxaYDOFZE5luXVR9QZn+/uXBBFVvEEL0DmIW0JgmxiXxhmeBQty1S11wElwI6l4g/C8BDBN5yQHByAC6Ci/E+hQa3Tfnu2kmM/gLgMhGZR53190Ss0QAmUPcdxu+Wmpxrf/+5lJC+BuDf4TwOfvyAxSOGichqVb0dzjVVjkHCiOt7IyCYtVSy7c25IZN5zgSwlOkzTzKUSXB9KePkfWwBrxH37bOoDjUFDx5iSKFPRZReel7SHHwW0X1BjLWPg25X1X3NfKKklEATryyq+n5V/b2qnssY5/1ZJGFUXDGDICUxsplq5pzhTHfcS1W3UdXRZs0FZqJFdfZniIllz5lkFajqFqp6NjPDzuJ3rbxGVHVbpnEmjVdUdWSd/bEx/lfFZN75WPUv8Zx8nXeciyk8kV9fs7r6hVOTwsZGZFG3G0XjWCt16I+R6xQAlPqY2iqNR0VVfSvmtyK57cEAHjQGqHp2ghyAe0XknzEAGZG7F4wxSVFdzsh/36KqPwGwFSWFTmNsexrAlfy/QEmmXVVHq+qtcNla78L54Jfz2jsBXIvqckhlzqdFRF4HcJ6qXsiiCXlUAkFy9BJ8DM4fPoHSwCiK0KPg/PKrUF2eCQnvvcVw6tCGUDa6ea0wYx/DnlfVr1HSu0xEnoqRfLLRx9zaUutvkjI/rapbWA7dDJVtInfb51RfZzhzOC7lOS1BznOtzDNb2qgQU6Ag6RCTSx2xOERHAme8jxlgnpOONPsZNz4aZD/ZuUZmvrmE/O5CgoTRqqojgnzzqI50treqrjb520WTITdXVScFRrbwmb64w7bM/vJjMbPhrNSU6eJ9jNgWYN+jqu+wCsg0gzhd5/YhUkcmnbLANEI/2okwP1DVj7BQQy4BIaUXj2612QwC3BsUQeg0KZGPscLKDJOqagnBbFU9NkGFiBqcXz4gUjY90hZFSCyAwXmca5A4LO5wh5+blXD888x3J6vqQiPCe4L8N3N+Vlyhn5Dac+lrVXWlqaYxpKelaxqsruIB9BLDIS5kYcN8HHdoABF6A+FzRpIYqaqfUtW7VHVVyooqc1X1V8x+8wSzLwhR3QKEwfuJaFvYQ1VPp+3hZVVt47wv9Htu/5p77MESUxpjBylRAujGrdcHxJa1gdjUg4rM5b0RwHFsNOfdVjbwopn7N+LSK8PFUn8awE8BXMnYZG+gyaG6+D5i9Lxmq3GkbWTQ5fZjBFaOuugucFlWU+CivrwVeRVcpNhjAB4WkTmeYPaRWzANXFV5LlQ1Ct+vqo6gTrwf3XjP+PVTv98JwL5wdd0/EngWbPFJn2f/cxE5I66B4WC2iq8NpPbiVAtc2OMfRORXJrBE44CgAYRuBME8suwOYLGIzDTA7321qZHYz7eXuUG3mudE7lIDe9JijF1IWFOt5zfbHAC1ECkMv/XdRwNY8Yaw42gUHGmQOAcXd/+fcLXfd0Yl8i+Ci4DbEy62P0zvHLSIvTZKBHsufRqAEfSBtgQI3dCGB0kjjbStEVS3sm1BdaRWU8AaIHZf1NTy4bRx6wlDb+MKPCTtU1yR/jSF+7WH8BdGsUVGWutgnbrr0T13+3EAJ8PlvP8dLjzWhtlGAH4qIt8wBKQ82JE6vxaISJkleecCuIeb3ZV/3CR3TguocYCoRncupnChWCBMI030NOkkifB6ZLXF+mxGm3WRKXqv/U4j60uj/kgwvzJcoImvJ34EgN8SoctwqbevAXgILnmmAFfOaTi6F8goA/iSqr4K4KrgGaKqgxKx15ZOHVFHquKMPUToNEgYAmPTvafSzjXlHJvpW+X3sdM8q5X72G7UiBK6p5OigTlJLyBvnMqjMdVEfcmmoXD+708CONsgtMKF7D5MkbwA4DZ+V0J1iG8Yynu5iHzRNCJohDBnSJ0S2HNGd27WIJami6PlZmVUd63UBMTqT8SuJ/ImXkPCuCNcGuT+cKmjbQBupcFvllErSk1w7DRzbVg6NE0ND4DL0d6eSDwULhZ+KFycetjk8Jdw1VdyALYD8F24QJhyDYmsbHTwvUXkyQCxs1DSgTAa9akm3KPFFuVP0zWij1xsUUp/dRT494er6i+DXmLLzP8LVPV7vvSuD7JpZJ0p5xs1cJ13Y+7O8shpRruq3sOGCiN4r8NMqGopKBsdd3h//m/Mu69yva33nLovfX0NWpAlhitbbpenoWVLuEokW8HlTd8oIo/HcLHeFDP76l15PfRKWnxBI9L1FEO/gEp2Fqh/XgTgWhFZTgDOo7uLrjd15bh3mafI/Fly3BGoZLTlA/vOIrhyTf/k8SxdeRGc9Xs6XHXWzhR2IQsPK+Hqo72ISslhWa85dh8ELXQrst8AJ44SCvVHPmKK99qVRfXtaFPVG1R1V56TD8Ime8KRpA/3yEeXnc51PKWqB7P9zUUmEaIc05rnaVU9VVXHBtJKvk64am8cft5fTmgb1MaGBRezVdLkAO6GBNKJj6IrBYk3cUcpiL670Kx9/W3n0w/AKgldNFIRgiD6agjnPFRV/z2m4VubEdlWUkRtMcRA+ij8s8eIwb9bUvR8xsTJ/8qIoraLiRqgtllU31fVzcz7LcTEeed6sA9RTEjocaaDh+/P9TdVPY19zFpCmwvjyHPmXT6TIGqnQWp/ziI2MBRDLNYvpB5ggC01OElkwimPZIM8NY3hbjYxwho017uB3C4XhhT2I5eOYsItbWdKv7bLOecPG4R8MOjFXY5pIBgi9zxVPd/WBzOtilpM4kmhToJGLaT2fzdS1ddNTPq7fv4BnBVMXLp//iRV/Wuwjno6dC0EV1W9yUh5Nmw2GrRIbDY5GoBILTFcxAL9aTEN4rfhb5NU9StM1FhhOIZH7EJM8/dGRdMwQytnxPtaR8EY7yTh3ZzKud7O+05U1U+Y9r7lGgYnK5Lb/Vmpqr9jPvvQJNtJkwjuufTBxuilqnqvUXu6+p0FkoN/nz+O6eNVahKpLVG4Nuhd1q3j5jprKItZwLrQVTB0rbQwj/h4uDpgnTQc/QPAHSw11ApXbyxPI80nAfwHqiuW/lBEvl8jTLSWz9Z24yw346YzvtrxdOeU6KIqw8U6/zeNYL7H2C9o/EMTLjlvVLSGpidpoMrD1TkbBmAmgOsA/MuuyUcHojovOzQ2RlzDCXwf7XRZzYPLT5+J6gKJrQCGsBJrK8+/GcCHUMnnbrQMdNx78iGmMwF8QUTu89VV7PzXVcNZvi+snv0hUKC6QF+R9cLPJpBcw+4dXVQYwBkAzkJ19FXYEeJbqvqmiFzpOYYhcmXEVz/1wFs0/tccXUnDjSU67LrRavY/z3PfC1fLbCr9th6pQYIEAuJWAH7Ac8pNArgEPvscXMH9XYPzDgTwOQCPsHjig3Ble98OY7UDZLchwbugEgJaJsHYXkReDYKRDgRwoaqeJCJPkLhawtEbTMfHLfjOKJer6vvgYsir7r2utvRpxjggA4QIiEGITrpzboOrDnIwXJE8Xx98A7iCeZPRPbpMg5epcCGFvwLwgo/O8siK6oqXQq5cZIbREXCBIDvAtaQZQaS24ZAemQoNIqPtSmm7QEYNEuZ6jRU0BfFfDFeHbAbdQ6/w89sAlohIm9mzVnL/HeGKMOb5jH1FZDo5pBKpd4arxbYErrXQbZS8jkF14FBvDe9OO4ENIrrlIDTqwvP4tDaJQb6HCJ1E/SUAlLimddpLiB1xM0/gen5rqDzoGz0SrlhfCd2zjixie673eQD/BmA69b9HCLiLLMASaIex+MDZqHTqbFTisNVLge7F8WGQ1zdwLwbX1PPRpjECRQnXlgORejyP3c35nXBx2QtVdS5cK6PZcJVNd+Tv3sL9UwCPmXJDqqo5EXlaVX9LX/tV9Edv30NxO83e7wbgT6idO1AXXsOc8bWF3I1wakmBzOW4lECKseUYZCo3geSWS/r2tx+Hq3c9n1z6DQCtrH45DS6DZwvEl6jVGiKaHW8TUF+HqzraQZ3zfQD2MAjWiM6nMQhUq2eXFW2bGUXUbsOT9r1rQKijOkSjk8RoAVwJ6N/E7EGBgUInw9UiD+us94Wtx6sdfxSRfzN6da8jYn8id76HCG0D80u0Hu4Jl8Q+liLv3SKy2EQylRrg/LXmkyNCfwrAr/kiThORWarqEXoiXIbPlsY4Eld/Ok5XtoCbo067MYB9EsS4JE6XhKDNImeZevVcuG6bS6gPrkR1oQD/fieSo+5h3ndSemmEBpJJkNyGqBzszRC4godfEZEZvo63ycSy97F9s0oJUktvcmuguvRznxiMfeHN/kDunqRe5oxhaCIR+VQaVux9Z6rqZQCuEpF3Y4ohNLN5Ean68XDhkgUA3xKR23yfLVUdCeBqilZhOKGk5EZRDEfVGBEuSml7yAXIOQ+uQslc/v+2QU4QGTaBa7vTCRfyOZ2GqmU2Q6sOQLVSojie72dajXevKY1vUuM7T7A6uYZbqbeuSdBbxUiNLQnqQF+OdxMMoIJ0FW7SwLD2l/GtlvgdB/hi9Nh2Vd0PwI+oN00KDCkluGwbX6nieQBfE5G7+WJDi3La4gbeQDSZBpgJcH2sPxVw2P8FcBIBqycia6MSRS29bCENQf+CKzX0WmhYaoDqRzWMlt2a7Hm1iGGiO1NXnWTe0Yb8bovAaNYsYhVJbKcD+JCILIkrK2TmWCBM/QrAaTWMgH0hfp8jIueZ7K169olesQn1GXLXCZ6wFSPDYumHqOpbJohhqarepqonquomqjqeIY23mDjfDlX9tgnIaE0R1BFb3F5Vf2PKwW7H73yI6ChVnVkjyqq/j06ue2NbYteEf7aYY4j5v5Bw1KpoGiXtm4+eqgELG7Ec8b0xgSullIEfRRPocbuqbsx714rUs9lb7/bje/FweaoJG80llE5OW9K5kBDEVDdEujfFb4kx1Pjk+5J54XmK2VPpYvgSKfEcuCyg20XkRSOO/4QW5+1R8Qvmydm3p361pIG2tF6P7mCI4Um850IAcwmsZbMuz2XWdjH3rsb0IvK230sjipcDA1tdt1SNTDaJkXy6NQrg8+O4/CIRuQ7AdawJdg6c3zrJP68xOrVf10UAvk3bRj6BA3a9I7Y1ugQ98703O7YzDSfyjbwLe06C3z5v4LCMGkFCcYjdTOGQfIjMRrSeDOBoOAf9xjQ2bUExzY/pAL4pIvezfO2HKdJ9Fq63cUhAfMeLEwFsxSCDl0wwf6nGJvqXPwHABUYnnI1KY7s4cbmnEUhWd06rO4VAnwfwC7rWfgPgERF5K/AOVFnO07zMmEJ+Vb7SGvMrJexvpKrj+M4XwfmIN4eLbrMW6GKwp9b6/SrtG382OdQlJBdYiOh2/CqAvZAunbK3hvd7n6KqrwC4Iq2dIkHi3Y5raKV95CkReTNA8Ias681w8LxZnNW7DgVwOSotRu14GS4o4FYitbccng/XXK2WRVj4zCJclce7VfU0EbnFLFpiuKt3X60xrVXmUW++xgBc2TSqk15C6Eb1KKlx3Qd5zFfVZ+DCMm9mEIZF7KaDHxKQXdJdLkVVPRXAD83cS+gewReHdLPpabhERN4moba+f6mznyMDaaM/OfUwuGCj44ncxTpeGkvMcjQGbghXvniMOW+Jqj4C11f8NhGZE6O39777TFXzfJnegPIRuOCLoVzcMu+aAnA7XCdCb/XegC9jDFz97qm8JkJyvagu440R1e6A803eQvG6JRRTOMc94eK5lwA4WkSe4zxyATctwTV8/4EBzIGQgaMxhG4FgBNF5O+md1ivqwwpyj/5UM2b4Jrae0NXKFrPJTFfQoPoW3BxAU8Z9aIVQHugJsTWcTfIDwDfBvCtfrZ8N2sQTRo2gMiuYSGAM0Tkd8YD0CeI7RX04+Gaik8OxOQILnDjTr7QMXCRRBvTzTKCOtB4uFDMRjcwpMh/B/B1EXkl5sV/FMB/UQ34jIhcx3hvG7FmgSZHADmLlHQgILZFKq9Lt8A1ujuICC5pa3o3idhJLhgfp/1LAF8O3Ft2Tx+Ei/ZaCOAlUyu9wLV0kjCPI3E4mPDik2SWk6s/C+BBEXnBWPRB1erra0GvDuFHmyAGcYE9Hj4LZJB7wMUZWNdenyD1gRQRhveQCzUr7pYNZXsLrnNizrhGpqISkngjdfIWAG0JFSm9caKDBOtCVOK+B8IIxc81APZnUbxcXyF1HY7tv59Ejnk0qt2UpRg3WieABwD8t4jcZZD7RADfRCXEM2msggvPvAbAM4xjmEBY3GMtIXZfDR9n/hfCpO+W0iwhqYnUOYpdOwA4Dq4d6TIe3sc7mpx5EjnlJjSeSIzYYUWnsD2r1rFu1xO7XoTzeb5BAJpAblCAi81+E8A8EVkdAPL2cOmDuwwgUTx8kfuLyEP9hNQ1DUesBzYZLmtsT7g01a1QnZpoxcs2uECflwEcCdfmFoFBLa4ksw3GmQHgz3C1vI8G8LtBhNCWeeXg4jUuoppSSjCeaQ0pr6aNx1d7SCXyESDGUJyawhe9D6r7GmnAeZsBcquXlA3SHiMir9Bl9mm4CLatzbXvELFf5vkzKOotp3pxJAEtNwAQWYO1HUiRVvpCp06J1F0BRtY9w5ayP4NLcvH7Z11muYT1SQOA7sd1FL+vMLp9bh1F4qQuJx0AThaR6410GQXMsFYZ61RIDXPTWrWdfQGAUOQ9BMCZ5ITjzOSWA7gLrj1KB7qHh+ZokNsMLm1xcszzIrgorKN5j9OIzFsFEkJS3HI7zxnWILD1pc5mgfRpAKeKSFfWUl+GEdbQqyXGmGddnEOo+nwoQdopx0hqze7Nzfx71CATwa3EUoLzy/+Wxsd3RKQjRpWs6mDTiE7diB7czShAP2OeSLk5DWerAcwUkRkpAO1EuMLs02J+Xk3xbywNX1sbZA6lAdudUtA9e6gnen9PkdnOdQVcqOgtcOWKF9sAjb6ODW6gkWBXzjqNX9vDeUEm9DFxlCa5/rqG2F5FmUNb0kw4T8JcuI6fzxjcihDfF01rIXUavTfuRoltVIzhJEyh88H+H6dRZtsa4kQnOf74AJnrRTfFcfz+NoSVA871PFyc+l8BvGhqWfeon1gPRfA0XU4sYl8MV0O9L2wTYV57bxdFGEhiucSoHqFh7WEAF4nIjQnvMGfu02W7kjp6Vq0+T0nWU6khlikqRd2/BeeiAsXqKMYIEwWLLAfPkRp6TBKR6C/kti/sYbjghltFZCn33L6Qqnzh/sq9bTCX3tcbOwwu+Kge4e+JDtrfktTa0rUtjoUSiUX2m+DcvbPggq6WwYUdrzJiegV+mnjpjTRPS0o/LAH4Gin+lBpTKFInBuL94KUagFCrGEC4idKLgGTvOQOuWOCfRGRV0B2jFDRhXyuVMhpAbA84Q+As3R9DJZZhoCHhui6uayBhhvnmy+HSRd+Cc5FdaWxLZWn0xccBYhO6RMRAhwlwLpPt4dqoTCDAvwiXmjgbzpeZo/i9BVyCwR5wJXJaU2yOpkR0JBgkJMV1iu5unksB/EhE5pMrR2bjB0ynxSa4dRnOA3IJ1ScfqCQN7FdfSEXa4Dsb6EitMcidJKpfDFdYU1IjdS8ARMjVfcZVs8HzrXABKXtQH8/DubOWkJKtJiVbHSCcLw88Fs4ttxWc330KnA++tQ7glGNsC6Ga8DKAc0XkhqDaS0Xn6UOXVR8jtZ9/ie/gx5S28gkEspYqJyl1+lqct56EpeYd9WWvNEmAlzjumzRnCeYrCXtqGYcPtX4NLsR7dZdO3U9InSS6ewpk/XJRzEbYF9tr8dHkouOI2NPg3GsbUDLYjMcmJAZJYyGA+6n73MU64/k4LjLQSs42KW1511tZVT8AV0G1lRx8ZxLaQsp7lhIkqlwMAS0hPjmkBBe6OhPATnDVbjaDc5fGSWy1VLEktTKM25cEpNZekhLmwmW8dcKlMG9jiOcMSrBbw1XKOQPOAOvKRK0FpG6GAMR9TltPK8nQFxmkK8YhWxBsMxXOD78dP5fh3A//IELPCnJyi3HzWMeRuptaEhOzMIKq0W7cu3YCoK/uMoYA+l6qXbVyBtaQ+7QERNXmJhcoGf3AzGE8CfE2cDkDH+dPnYF4HvUA+eLqwFu4eoAG0hWcv2/QMA4uOnMcXFi2z0vooI78EJyf/nEACwhTw7mnOxsGspqMaLWIvG6SmjAQkNq6f6RBBE1LEOqpAvYla/jiQqmA7Wk0qG/dEgDcgEfoHiI1EhCjmGad3MOpJJI+ZztHYF1AkXIukaJANen9cFFm25hbPQBnkS+a99cZZIj9AJXEnnAsIEd8Dc66vJgEKCIyDodLq9wIrojj5iTqIxOW9jBc9OIdtma8WXfEe46EC8kexrmvBjBfRJYFUqSExRfCrLcgnbPXOHUjgQxJv5VTnpv2OVoDiZPuIzFimCC5amaE7i6JOAsmBilSx6lUacODm1Kh2P9qf7jmDYALX51pbBdhHoFX6w6Ey3cezd+Xw8UNPAlgbhjNVWOvxlAKeA+lkffBNW94F64GwWWs9lKoIcaXE9JQxagt5QTJNMynCPX3rk5/PamrXKvCYr1zauVbJxlINIVBRXphTWkMNbWIR6PSRb8gfg/rvAviq6nGEUStQ2BrqVBxRi1/bkdMEYh8PcksrtRQcH1UA+7sfEpBT7ECjayraUvJJahfsepL8DytgSepA8OkkRfdZEWN3rAkJiGQ9gAp690rrfTRoxYta5t7N4Hk2sR76234iGJ023q+6biGA5braQPGXYkz2gZNK3rtFaXc/2xkY/CNsO1Nf7WkHWgN6yUDhe4GiC4xpnugTexvCfeKEtSCcg1LexdnSDgnTM8r15hj1bN8d8k4icXUppNAfbFpld18vsF1ofhaa51xqZrhWsKSWBqIvfnACFky10nwWdfVtrTZ6BmljZKQM44K22tY37mrPnSK50W9Nb9eWn/UAyJY6/dcf8zDXD/S/N9K19Z6N2QQI6pNmPA6VTnGPSWGm02Cc120wVlEV5rzRsFZPlsALBeR+R4QY+6Z4318Ycan4CymWwJ4lk3VJeCiw+ACOIbD+SfbYua3DZyvfDhcM8BHaZwR6uij4UJth8K5iF4Vkdm8/3A4S+0ucC6ZApz75k4ReZDn+Pa7o+H8povgilCOhnMHXQrgE3AupVtE5Foi4ig499SmfPZiAI8xpVSs/YB7fCic9XgsnC/6MQB/FZE2U4lnJ7i8+WFwLqVZInI692EIXO7AxpzbfXD+6N3g+qo9DVfddjxceuuX+E6Rcex1F6GjNL95TsOOIjeY7hBtqjpbVXdT1T3YsWKeqq5W1TWq+o6q3sVm5VDVs1T1GlW9VVWv5HXL2ZGkU1UvU9VF7AbxuqruaqUAdjGZq6pv8/6nGMMLVHWsql7LedlxqxVFVfWv7DrRyd+vMmv9riaPX3Iuz7MDh6rqw+zCYsei4LOf56Mx91ygqmeYdfo5npswh2dUdaqRfn4Z0yVkMn8bo6rtmn6cE4js2VgXjSWqeqCq/kJV71bVO1T1P1V1c2vY4DFSVZ9NAIbdVPUbNYBllapOU9Xp5rtXVXWfABjVtB1SVX3AAO82MfftQlZVHa6qj/D7UnDeP8x6x6vqMn7fyXPfYBlnqOqF/K5NVReq6nM817ee+STn5ef8N1U9mPdq47Ur2eaog59fYSufV3lNR8xaTvbiMP/+kM9cY/am0yB2C9/Lc+bZbTz3s2at8/l7J4nRItMS6HlVfci0XXp6oBmz+nJEg41DU8S7AMC9AE4H8AG4iKPvAHhUVXejCFbg34/AheB1UBR8luLbSlQa/fmEjCfgaqO9BhdyOAyunO4sVArALzBGJZ+99Du42GTfIG4vVKKiDuG5vrKkAthXVSfQt3oWz2/n+5oF4DKKmX8x4uQ+FPV91UrART/tYd51RDH6HxRVb0Ql8+pwVBJghM8bgkprpggu3fI8rkOpTmwNFwbqE2Yehgvo8O6is8ghi2YevgD+63DRXkUe7+VaN4GLNMsHcziK9yhQzM/z+CJc6KQ31v0aru2Tf9ZmAMam6F6SIfVA06GZYHAEXL20OQCOhSuxtA+A66nnXmoCbgCXqeUL1z8FV771aAA7sGXKSAJGBGC2iPwWLtXN+yQ35b18f6w1Bgj9OB+umwh4TZ46KIhMNjJIqSfuRQD8Ar9vIaE6DK64xPkAHvfNAeFqvPl7rDDrO5z3saLnEkZQzQme3WE+rzLX+OCO6XBFEu06NkN1hNPVcBFfy7hnmwKYYII/bELEEhE5l9f4Z2wBF/1lq8V428YB5Pg5VGfUvQ0XE23HUmMdH069f73w+ESDcE2f4Is8Ey5h4DK4+mdKDrIHgE1M2uczqBQu2IuI/QJck7gpqCQBAK7v9RQaZcrcvzkEYD/aUIkxjgyCdAZANZIcbF8DhDej4sb5ADnWRHPdueTccyktPAJXedNzfJBAXWGec3hgHFIA01T1QhqQ/DruJjHwY6VBHF9+qhTsB0iA7P2HsETz6wb5JQHmioyZt80bcnCtify4GMBz/H8jI3nYPtZFVEdwDUH3aqcFrCdjMCG1f4lTKDpuR472EFyXiDFE2K5kc1qpb6JonOMxjNx5f7jOjd4tUyJXfYacBATwX6M6d3gVqtvVAMm9k3amBRgkDlcbJDoYlSKLagC+Ay53vI3fr1bVzVCprrqKCOprn++gqhvyOj+XDwD4BhFD4Arq/z7gfmu4FzDIWUR1OqNHLgtHL9AKvyWvWQhgoXFvWTfXPEoMRxqxfyWAA8wzduf7UCPZDI/Z36HmviVUZ3/1eheMDKn7Z3husIyA4zNkDiCwbgeX4TMbwFum9e0Icr8dici/MPrgNLpN/BjJw2cEfU5Eng8AdVUAYJ6TjAgAUciRfJ7wlnCN6TwAbkvVYalZ24/gull8OQDow1DJKx4DV3Z2KCpJ9IeiurD+Kzy8uH8xgzVC4tQaIEYJlQKQYSlh/93hcDXMRvD73xNxCwHMKYARlBgO4bwe4nM3Nxz+VOrafq4HUUQPieQYVFoZtcG59DwHbzPwkCH1OojUNxGA3gPgc3A+0HPg/LpPAvgoRe8cxdLd4aqVfJdI/16DWCtQyQOOyEm/Y/S/nQxX89d4DmfLFXdSjC4Zg9pwAqgaPXoXI+oKr7mLz26Haw98P/Vzb6yaSM5bNEg8BpWe4EUSjyEGaX8G4GRjJPsJv3/HXLMClSaJJSN+b2YQzMZNF3nOmXD+8AjOf3weCaht0OBrzx1GiUFIjD9PCcVLBmsoRUw3RrDd4WqP2/rZBc7LS2GdqBQVaCHXXhMjKQ3KMZj8diUCz3UU504igMwCcJKInJcgrk+iCHxCwFnzNK4NM8A7A8BP4coaDwVwpqpeTRFTjE49lJ9tGt2OBDgvFu5lDEIRLeR/gWsQ50Xpz9BwdxAqfcHDkktrOPe8IWrfB/CfAI7hdx+mVT9nuNojROKxNModS0S2MLGx+TyS/2/L+bYaYrdhcN2blCjOY/thmxQxylitvURwF4DviMjLqnqQ2f9nReQE1ht/nns7j3YI22q3Fa6U1bPcj1n8/Q/0YLxtDGfIkHpdYdPOXQGKesep6vFwLpBhcM3UfcyxjypTw53mG4MUDEJfBOCXRqIZwdrXd5H7zYBzDS1FpTbabJ4/n9xnNQHvDSKcB9i5cK6lcRRp/0dEHlDVbYnIM+CaIbysqvtR9D6ASLGCQH4JkXMxEXUygKtE5DlVvZR69Awa/nYxBGYmPQU/okTzABHCE6J34NoWT+Y9FvO7EgnGxahUHXmZ9xwPl1P8Klxb2xW0W/hIMk8Y/wjn9ltOY9oTpnOm78oxikaxFfxuJongIrjqIBuSGHvp4XUARwXplf8E8Js4OBnsSJ0ldDhgGkd9egcizEMi8hh/25ZW6DItzrNJAIaKyCyeM5o65EoC6xASkDWsmlozxZJhjx4guyVpmDDRsRTTl4nIkhr3i9Z2ccNGWgj5QJzemHPgh+5KMqmVT50h9bqBpGHWUCkJuJIQLm2ucwPnxfYpSwJkW8omDujNGn3TgK7qKybIIqzM0nW5qadmK1PaXOWwuwjMXCSwiqfK0DL7UJUPHbOurkwxk6ucQ/eqM117OBBy0zOkHthEoGyAKfxebS+qGp9Ti3uNEBDUSM3MRjaygYGX4F5PpEyR7tgn6+nte65PsdgZp+5fnc+Kd1HAnat6BZvfwiT/uBY+XT2/mEZor6mqZW6S+XOhCBtw/8j8n4vRvXOUDEpp9NSwyAC6F1SA+Zwz6xAv7iK+9XG5jv2gJ/se64IN9hDh/mdovp5x5r4sPpCWs6Y1JAWAm/R71BcphnEpq2nO7a99r1XkIuPUgxyhDff5BFyc+ObkCreLyDcJeIfA+bqHwLlq7hSRK/jbODi/8Ag419SjAL4K58f9Bpxl/Ew4d8t5InKnqk7kPXeE8/36mPHbReQ+3vdYODfOWDiXz2Nw0W0+kOUncNFVm8O1wv2ON26Rcx4Gl/yxHSoutctE5E+hNZyE4etwARvD4AJhzjbW/O/CBYaMBHAn5/rvcL7g74nIPSwa8T64UNaxcMEkzwG4m26/qiIQ5v9PAjjR7PttInI29+BQuMQUv++3i8iVvO4wOL99hzGS+UCd74jIAlU9FC6AZYpZ/x0DwRuQjb7j0JGqFlT19zF5v/eYcx8KfnvO5D/vUyO/elnwuV1VN1LV02tccyVziOea7x5R1Q/USfw/2+RSn5dwzjVW1DZr2Cnm3K+Y9d9jvi8G561kDvqJCc98SlV3DJ7n9/36mPP/YZ47PaZwgr9HrSIPw1X1Cwm/HZMk4QzWsT6JJp5an0NO0YFqN88MvvzNyVGLPKcIF6Dh858L5rcSuZgPpRzJ+ywmB2mBy+jyAShtqI6vLsGFsn4eLmjDh2i+aX5v5zyfhovX9jHap1K/Pgkudt36YX1o69sxflvABc74+fg5HRrMy4eGKlzEVyePDeAi1XwIbBsq7q8yXJLKX9h+R1U1z33/Flz7m3DfX+G+bwEXJ2D3fRvuvZ+Tj+MuwkWiLadEMw2u1FIcNz7fl+7NiiQMPrG7xOCN/0ClkEAbXNTYKXCZWoAL3RxO0c6n9w2Ba/kC/uZjipfCFVlYjoqv+LNw0Uw+NnsX/u8LAyyDC3S5HpX2tofzfx8+6ePHfeaYwBUouAyV3O5JqjqVCO0NQ/M5H5+1dRHF3pJBOlDEzXENPj95XwbhgIjr0xXvFZHD4EJh/Zr2RCU7awhctNnPOO8iRfIj/bMT9v3n3Per+cyDUMkK8/veikoseCsqRRMW833sSwJ1ornmKe75/ZzrewBM41wypB6E69wLLpzSv+DPi8jXROQKEXmE5xxurnvG/O9zfG2jtnfhwiSXGRvFEgKd/7whKvnVAuBdEXkALnTTf9dmuCt4P3+NR/I5fJ61WH+ICOSt66dRF70ALpzzClU9mhy9QN17E1RykhfDxUmDevHe/H9kyEmDNW1sEFDgIty+Dhe26pNdphkL+l6o5F0LgJNF5Azu+6Mx+/6sQcAPGgnJE6ZxcI3Wb6J9Yxoq5YsfI1Gz/cInrk82pPUFqf3L3AKVKiVLAfwpsMiOIMcARcAfGWTbj3qZzdNtJ2eyYl8h5rNtaztOVW+CSwrxQHddgNQrUckZ9s+J6+U9DZUqKyW4LLTz4ZJZPkOk9+JrznBEv4b7DKcEjWNAdepoR5CQ4blmVe41RdyXzXd2vnbflwG4Mdj3kajkUMfte9hfugBXAGNrEumRqLgST4UrNnEg77EQ1cUfBv1Y36oremTz+c3HA7hJVbckJymQC3mRdVdU0gzHUqwLkVrQvZviBjHP9HrhaFq6QbH1AhG5VVVPN+ctDySCsmlp6gHbp1baovuHUKQ9jLp66E/33N1/Hg+Xx+252sEsVGirirQHz0YgIgOunHKnqn4clbDRJxP2fTiA47jvW6NSfnii2fddUOlbPR4uxbVsiNN8WuPbKU0da9ZwB9WUN/i5A8DLXgXLkHoQqdX8+ygqsdAFuGofs+DqaF0Bl9bnAWs4jWqe6+QpCuYDg9RQImDZcItxRo9djerKJXNp1JkF4H4RmU+uZbsurkClIooaI5glOAW4HsbL+HyFyyi7As5d5MXgFsNxh6FStUWNvuoJw1S4rDPLFVfx/zHm+7Lh1GUAE1X1r0ZUfhbAPcaV9Fiw79ebfb+c3NSva0TCvtvOIytF5GbD6Z+jiF+Cc2fl4PLi/wPAWSLyIqWs9QKp1wvxm0aySESehMux9QafMjlVC4H3CCMSvwXgBiK6N1YdY/Q3XxBhLFyqYGSu3cYYubzo7DnPqyJynoj8kQjdQr2zzSDNasOpreg7zRjwBK666a+MkW4YXAXVww0RiYxuux9cyqLnpvfBFbuHue/xqI56W81ySONQ3aq2YBBxZ1Ryt2cD+CR7Mwv3/Qm4lMukfT/S3Hcu931+sO/jjdQUsQNHngTx12a9U+GqpF5LSWt+QNgzpB5cRnAVOPfR1aiU3PXibgdFQN9w/AoROZFIE5EjtsJVJvXAvYYIvZDi3hPkqrNofb0bzh00wiD5GAKjB8iS4UoegZcZTl0EsJR6ZStcYMo8Gq4iAN+Dq4QSunM6yRGvND7avXhv77L6uIgcA5dSWua9dzCSRielholEjjl87gKjyxdIhJ6HKx+8p4g8T2QuBft+DSrBI37f21HpihIBuJz7fhk/e8/CdoZwtlAlKcK5Kh8nMQvtDos41/UKqdfn2O+dyGHaKca+SW4wmmLhK+TWE8h5XyeQ7GwMMwsIzCOJ4B0AijEtf4+GKzvsCxT8JKYdzc4E7mUAXqRxyRdE8AUFRhCJvLX7Xd8sXVX3pk49htzuXhF5ir/5Z4zk7xtyzg+QaOzKqb5B4H8vn9vOe60wFnHPXTei5NBOIvMauTNiIthsRJnf9zbu++xg31+Cq1Ti9/0N7vMulDLaOZ/7w/hxVd0Hzr21IffrjyLy1PqWlvn/AcoODPYLRAFhAAAAAElFTkSuQmCC" alt="Rai Phu Pha Logo" alt="Rai Phu Pha Logo" style="height:60px;width:auto;object-fit:contain;flex-shrink:0;">
+    <div>
+      <h1 style="font-family:'Rye',serif;font-size:22px;font-weight:400;line-height:1.3;letter-spacing:1px;color:var(--gold-light)">Rai Phu Pha Camping and Cafe<br><span style="font-family:'Cabin Sketch',cursive;font-size:13px;color:var(--gold-light);opacity:0.8;letter-spacing:2px">@ Srinagarind Dam</span></h1>
+
+    </div>
+  </div>
+</div>
+
+<div class="nav-tabs-outer"><div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('raw', this)">🌾 วัตถุดิบต้นทาง</button>
+  <button class="nav-tab" onclick="switchTab('compound', this)">🧪 วัตถุดิบผสม</button>
+  <button class="nav-tab" onclick="switchTab('hot_coffee', this)">🔥 กาแฟร้อน</button>
+  <button class="nav-tab" onclick="switchTab('coffee', this)">🧊 กาแฟเย็น</button>
+  <button class="nav-tab" onclick="switchTab('tea', this)">🍵 ชา</button>
+  <button class="nav-tab" onclick="switchTab('cocoa', this)">🍫 โกโก้</button>
+  <button class="nav-tab" onclick="switchTab('milk', this)">🥛 นมสด</button>
+  <button class="nav-tab" onclick="switchTab('soda', this)">🫧 โซดา</button>
+  <button class="nav-tab" onclick="switchTab('smoothie', this)">🍓 สมูทตี้</button>
+  <button class="nav-tab" onclick="switchTab('matcha', this)">🍵 มัทฉะ</button>
+  <button class="nav-tab" onclick="switchTab('pricing', this)">💰 ตั้งราคาขาย</button>
+</div></div>
+
+<div class="main">
+
+  <!-- RAW INGREDIENTS -->
+  <div id="panel-raw" class="panel active">
+    <div class="section-title"><span>🌾</span> วัตถุดิบต้นทาง — ใส่ราคาที่ซื้อมา</div>
+    <div class="notice">
+      <span class="notice-icon">💡</span>
+      <span>ใส่ <strong>ราคาที่ซื้อมา (บาท)</strong> และ <strong>ปริมาณที่ได้รับ</strong> — โปรแกรมจะคำนวณ ราคา/หน่วย ให้อัตโนมัติ แล้วนำไปคำนวณต้นทุนสูตรผสมต่อไป</span>
+    </div>
+    <div class="notice" style="background:#E8F4EA;border-color:#A8D5B0;">
+      <span class="notice-icon">💾</span>
+      <span><strong>สำรองข้อมูล:</strong> กด <strong>Export JSON</strong> เพื่อบันทึกราคาวัตถุดิบและราคาขายออกเป็นไฟล์ไว้ที่โทรศัพท์ — เมื่อเปลี่ยนชื่อไฟล์หรือย้ายไฟล์ ให้กด <strong>Import JSON</strong> เพื่อโหลดข้อมูลกลับ</span>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="export-btn" onclick="exportData()">📤 Export JSON (สำรองข้อมูล)</button>
+      <button class="import-btn" onclick="document.getElementById('import-file').click()">📥 Import JSON (โหลดข้อมูล)</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="export-btn" style="background:#1D6F42;" onclick="exportExcel()">📊 Export Excel</button>
+    </div>
+    <div class="ing-table-wrap"><table class="ing-table">
+      <thead>
+        <tr>
+          <th class="col-check" style="width:28px;min-width:28px;max-width:28px;padding:6px 2px;text-align:center">✓</th>
+          <th style="min-width:120px">วัตถุดิบ</th>
+          <th class="col-brand" style="min-width:100px">ยี่ห้อ</th>
+          <th style="min-width:50px">หน่วย</th>
+          <th style="min-width:100px">ราคาที่ซื้อ (฿)</th>
+          <th style="min-width:100px">ปริมาณที่ได้</th>
+          <th style="min-width:100px;text-align:right">ราคา / หน่วย (฿)</th>
+        </tr>
+      </thead>
+      <tbody id="raw-tbody"></tbody>
+    </table></div>
+    <div style="text-align:right; margin-top:-8px">
+      <button class="save-btn" onclick="saveAll(this)">💾 บันทึกทั้งหมด</button>
+    </div>
+  </div>
+
+  <!-- COMPOUND INGREDIENTS -->
+  <div id="panel-compound" class="panel">
+    <div class="section-title"><span>🧪</span> วัตถุดิบผสม — สูตรและต้นทุน</div>
+    <div class="notice notice-blue">
+      <span class="notice-icon">🔵</span>
+      <span>วัตถุดิบเหล่านี้ <strong>ไม่ได้ซื้อโดยตรง</strong> แต่ผสมขึ้นจากวัตถุดิบต้นทาง ต้นทุนต่อ ml/g จะคำนวณให้อัตโนมัติเมื่อกรอกราคาวัตถุดิบต้นทางแล้ว — ตรวจสอบและปรับปริมาณ Yield ได้ที่นี่</span>
+    </div>
+    <div class="compound-cards" id="compound-cards"></div>
+  </div>
+
+  <!-- MENU PANELS -->
+  <div id="panel-hot_coffee" class="panel">
+    <div class="section-title"><span>☕🔥</span> เมนูกาแฟร้อน</div>
+    <div id="grid-hot_coffee" class="menu-grid"></div>
+  </div>
+
+  <div id="panel-coffee" class="panel">
+    <div class="section-title"><span>🧊</span> เมนูกาแฟเย็น</div>
+    <div id="grid-coffee" class="menu-grid"></div>
+  </div>
+  <div id="panel-tea" class="panel">
+    <div class="section-title"><span>🍵</span> เมนูชา</div>
+    <div class="notice" style="margin-bottom:14px">
+      <span class="notice-icon">🎨</span>
+      <span><span class="pkg-tag">บรรจุภัณฑ์</span> = แก้ว+ฝา &nbsp;|&nbsp; <span class="optional-tag">ตกแต่ง*</span> = วัตถุดิบตกแต่งแก้ว (optional ใส่หรือไม่ก็ได้) ต้นทุนหลักในป้ายราคาไม่รวมส่วนนี้</span>
+    </div>
+    <div id="grid-tea" class="menu-grid"></div>
+  </div>
+  <div id="panel-cocoa" class="panel">
+    <div class="section-title"><span>🍫</span> เมนูโกโก้</div>
+    <div id="grid-cocoa" class="menu-grid"></div>
+  </div>
+  <div id="panel-milk" class="panel">
+    <div class="section-title"><span>🥛</span> เมนูนมสด</div>
+    <div id="grid-milk" class="menu-grid"></div>
+  </div>
+  <div id="panel-soda" class="panel">
+    <div class="section-title"><span>🫧</span> เมนูโซดา</div>
+    <div id="grid-soda" class="menu-grid"></div>
+  </div>
+
+  <div id="panel-smoothie" class="panel">
+    <div class="section-title"><span>🍓</span> เมนูสมูทตี้</div>
+    <div id="grid-smoothie" class="menu-grid"></div>
+  </div>
+
+  <div id="panel-matcha" class="panel">
+    <div class="section-title"><span>🍵</span> เมนูมัทฉะ</div>
+    <div id="grid-matcha" class="menu-grid"></div>
+  </div>
+
+  <!-- PRICING -->
+  <div id="panel-pricing" class="panel">
+    <div class="section-title"><span>💰</span> ตั้งราคาขาย & คำนวณกำไร</div>
+    <div class="notice"><span class="notice-icon">📊</span><span>ใส่ราคาขายของแต่ละเมนู ดูกำไรและ % margin ได้เลย · ต้นทุนในการคำนวณ <strong>ไม่รวม</strong> วัตถุดิบตกแต่งแก้ว optional (แสดงไว้ให้ดูเปรียบเทียบเท่านั้น)</span></div>
+    <div class="filter-bar" id="pricing-filter"></div>
+    <div id="pricing-grid" class="pricing-grid"></div>
+  </div>
+
+</div>
+
+<script>
+const MENU_IMAGES = {};
+
+// ============================================================
+// RAW INGREDIENTS — ซื้อมาโดยตรง
+// ============================================================
+const RAW_INGREDIENTS = [
+  { id: 'coffee_beans',       name: 'เมล็ดกาแฟ / กาแฟบด',           unit: 'g',    group: 'กาแฟ' },
+  { id: 'whipcream',          name: 'Whipcream',                       unit: 'ml',   group: 'นม' },
+  { id: 'steamed_milk',       name: 'นม Steam',                        unit: 'ml',   group: 'นม' },
+  { id: 'cond_sweet_mali',    name: 'นมข้นหวาน ตรามะลิ',              unit: 'ml',   group: 'นม' },
+  { id: 'cond_sweet_smooth',  name: 'นมข้นหวาน (สำหรับโยเกิร์ต)',     unit: 'g',    group: 'นม' },
+  { id: 'coconut_milk',       name: 'นมมะพร้าว',                      unit: 'ml',   group: 'นม' },
+  { id: 'fresh_milk',         name: 'นมสด',                           unit: 'ml',   group: 'นม' },
+  { id: 'fresh_milk_matcha',  name: 'นมสด (สำหรับมัทฉะ)',             unit: 'ml',   group: 'นม' },
+  { id: 'fresh_milk_smooth',  name: 'นมสด (สำหรับโยเกิร์ต)',          unit: 'ml',   group: 'นม' },
+  { id: 'tea_earl_grey',      name: 'ชา Twinings Earl Grey (ซอง)',     unit: 'ซอง',  group: 'ชา' },
+  { id: 'tea_english_breakfast', name: 'ชา Twinings English Breakfast (ซอง)', unit: 'ซอง', group: 'ชา' },
+  { id: 'tea_rose',           name: 'ชากุหลาบ ตรามือ (ซอง)',           unit: 'ซอง',  group: 'ชา' },
+  { id: 'tea_dragon_thai',    name: 'ชาปรุงสำเร็จ ตรามังกรบิน',       unit: 'g',    group: 'ชา' },
+  { id: 'tea_555',            name: 'ชาผง ตรา 555 สูตรชาชัก',         unit: 'g',    group: 'ชา' },
+  { id: 'tea_gold_elephant_thai', name: 'ชาผง ตราช้างทอง สูตรชาไทย', unit: 'g',    group: 'ชา' },
+  { id: 'tea_dragon_green',   name: 'ชาเขียวนม ตรามังกรบิน',          unit: 'g',    group: 'ชา' },
+  { id: 'peach_powder',       name: 'ผงชาพีช',                        unit: 'g',    group: 'ผงชา' },
+  { id: 'lemon_powder',       name: 'ผงชาเลม่อน',                     unit: 'g',    group: 'ผงชา' },
+  { id: 'apple_powder',       name: 'ผงชาแอปเปิ้ล',                   unit: 'g',    group: 'ผงชา' },
+  { id: 'cocoa_powder',       name: 'ผงโกโก้',                        unit: 'g',    group: 'โกโก้' },
+  { id: 'matcha_powder',      name: 'ผงมัทฉะ',                        unit: 'g',    group: 'มัทฉะ' },
+  { id: 'syrup_caramel',      name: 'ไซรัปคาราเมล',                   unit: 'ml',   group: 'ไซรัป' },
+  { id: 'syrup_blue_hawaii',  name: 'ไซรัปบลูฮาวาย',                  unit: 'ml',   group: 'ไซรัป' },
+  { id: 'syrup_peach',        name: 'ไซรัปพีช',                       unit: 'ml',   group: 'ไซรัป' },
+  { id: 'syrup_coconut',      name: 'ไซรัปมะพร้าว',                   unit: 'ml',   group: 'ไซรัป' },
+  { id: 'syrup_mint',         name: 'ไซรัปมินต์',                     unit: 'ml',   group: 'ไซรัป' },
+  { id: 'syrup_vanilla',      name: 'ไซรัปวานิลลา',                    unit: 'ml',   group: 'ไซรัป' },
+  { id: 'syrup_lemon_ready',  name: 'ไซรัปเลม่อนสำเร็จรูป',            unit: 'ml',   group: 'ไซรัป' },
+  { id: 'syrup_blueberry',    name: 'ไซรัปบลูเบอร์รี่',                unit: 'ml',   group: 'ไซรัปสมูทตี้' },
+  { id: 'syrup_mixberry',     name: 'ไซรัปมิกซ์เบอร์รี่',              unit: 'ml',   group: 'ไซรัปสมูทตี้' },
+  { id: 'syrup_strawberry',   name: 'ไซรัปสตรอว์เบอร์รี่',             unit: 'ml',   group: 'ไซรัปสมูทตี้' },
+  { id: 'caramel_sauce',      name: 'ซอสคาราเมล',                   unit: 'ml',   group: 'ซอส' },
+  { id: 'choc_syrup',         name: 'ซอสช็อคโกแลต',                 unit: 'ml',   group: 'ซอส' },
+  { id: 'lemon_juice',        name: 'น้ำมะนาวสด',                     unit: 'ml',   group: 'ของสด' },
+  { id: 'blueberry_frozen',   name: 'บลูเบอร์รี่แช่แข็ง',             unit: 'g',    group: 'ของสด' },
+  { id: 'plum_fruit',         name: 'บ๊วยดอง',                        unit: 'ชิ้น', group: 'ของสด' },
+  { id: 'peach_fruit',        name: 'พีชเชื่อม',             unit: 'ชิ้น', group: 'ของสด' },
+  { id: 'mixberry_frozen',    name: 'มิกซ์เบอร์รี่แช่แข็ง',           unit: 'g',    group: 'ของสด' },
+  { id: 'strawberry_frozen',  name: 'สตรอว์เบอร์รี่แช่แข็ง',          unit: 'g',    group: 'ของสด' },
+  { id: 'lemon_fresh',        name: 'เลม่อนสด',                       unit: 'ลูก',  group: 'ของสด' },
+  { id: 'plum_juice',         name: 'น้ำบ๊วย',                        unit: 'ml',   group: 'เครื่องดื่ม' },
+  { id: 'coconut_water',      name: 'น้ำมะพร้าว',                     unit: 'ml',   group: 'เครื่องดื่ม' },
+  { id: 'orange_juice',       name: 'น้ำส้มมาลี',                     unit: 'ml',   group: 'เครื่องดื่ม' },
+  { id: 'red_drink',          name: 'น้ำแดงเฮลซ์บลูบอย',             unit: 'ml',   group: 'เครื่องดื่ม' },
+  { id: 'soda_water',         name: 'โซดา',                        unit: 'ml',   group: 'เครื่องดื่มอัดลม' },
+  { id: 'sprite',             name: 'สไปร์ท',                         unit: 'ml',   group: 'เครื่องดื่มอัดลม' },
+  { id: 'honey',              name: 'น้ำผึ้ง',                        unit: 'ml',   group: 'น้ำตาล' },
+  { id: 'sugar_syrup',        name: 'น้ำเชื่อม',                      unit: 'ml',   group: 'น้ำตาล' },
+  { id: 'salt_fine',          name: 'เกลือป่น',                       unit: 'g',    group: 'เกลือ' },
+  { id: 'salt',               name: 'เกลือหยาบ',                      unit: 'g',    group: 'เกลือ' },
+  { id: 'hot_water',          name: 'น้ำร้อน',                        unit: 'ml',   group: 'น้ำ' },
+  { id: 'plain_water',        name: 'น้ำเปล่า',                       unit: 'ml',   group: 'น้ำ' },
+  { id: 'ice',                name: 'น้ำแข็ง',                        unit: 'g',    group: 'น้ำ' },
+  { id: 'smoothie_powder',   name: 'ผงสมูทตี้',                    unit: 'g',  group: 'สมูทตี้' },
+  { id: 'yogurt_raw',        name: 'โยเกิร์ตสำเร็จรูป',                     unit: 'g',  group: 'สมูทตี้' },
+  { id: 'pkg_hot_cup',        name: 'แก้วกาแฟร้อน 8 oz พร้อมฝา',       unit: 'ใบ',   group: 'บรรจุภัณฑ์' },
+  { id: 'pkg_cold_cup',       name: 'แก้วพลาสติก 16 oz พร้อมฝา',     unit: 'ใบ',   group: 'บรรจุภัณฑ์' },
+  { id: 'deco_peach_syrup',   name: 'พีชเชื่อม (ชิ้น)',               unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_lime_slice',    name: 'มะนาวสด (ชิ้น)',                  unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_coconut_roasted', name: 'มะพร้าวคั่ว',                   unit: 'g',    group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_mandarin',      name: 'ส้มแมนดารินสด (ชิ้น)',            unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_cinnamon',      name: 'อบเชย (ชิ้น)',                    unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_lemon_honey',   name: 'เลม่อนดองน้ำผึ้ง (ชิ้น)',          unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_lemon_slice',   name: 'เลม่อนสด (ชิ้น)',                 unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_apple_slice',   name: 'แอปเปิ้ลสด (ชิ้น)',              unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_star_anise',    name: 'โป๊ยกั๊ก (ชิ้น)',                 unit: 'ชิ้น', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_mint',          name: 'ใบมินต์ (ก้าน)',                  unit: 'ก้าน', group: 'วัตถุดิบตกแต่งแก้ว' },
+  { id: 'deco_rosemary',      name: 'ใบโรสแมรี่ (ก้าน)',              unit: 'ก้าน', group: 'วัตถุดิบตกแต่งแก้ว' },
+];
+
+// ============================================================
+// COMPOUND INGREDIENTS — ผสมจากวัตถุดิบต้นทาง
+// ============================================================
+// yieldQty = ปริมาณที่ได้ (หน่วย = yieldUnit), editableYield = ให้ user ปรับได้
+const COMPOUND = [
+  {
+    id: 'coffee_shot_single',
+    name: 'น้ำกาแฟ 1 ช็อต (เมนูร้อน)',
+    yieldQty: 30,
+    yieldUnit: 'ml',
+    note: 'กาแฟบด 10g → น้ำกาแฟสกัด 30ml (อัตราส่วน 1:3) — ปรับได้',
+    editableYield: true,
+    editableRecipeAmounts: true,
+    recipe: [
+      { id: 'coffee_beans', amount: 10, unit: 'g', label: 'เมล็ดกาแฟบด' },
+    ]
+  },
+  {
+    id: 'coffee_shot_double',
+    name: 'น้ำกาแฟ 2 ช็อต (เมนูเย็น)',
+    yieldQty: 36,
+    yieldUnit: 'ml',
+    note: 'กาแฟบด 18g → น้ำกาแฟสกัด 36ml (อัตราส่วน 1:2) — ปรับได้',
+    editableYield: true,
+    editableRecipeAmounts: true,
+    recipe: [
+      { id: 'coffee_beans', amount: 18, unit: 'g', label: 'เมล็ดกาแฟบด' },
+    ]
+  },
+  {
+    id: 'milk_mix_coffee',
+    name: 'นม Mix สูตรกาแฟ',
+    yieldQty: 1500,     // ml (Carnation plus 500 ml + นมข้นจืด 1,000 ml)
+    yieldUnit: 'ml',
+    note: 'นมข้นหวาน Carnation plus 500 ml + นมข้นจืด Carnation ไข่เจียว 1,000 ml',
+    editableYield: false,
+    recipe: [
+      { id: 'cond_sweet_carnation', amount: 500,  unit: 'ml', label: 'นมข้นหวาน Carnation plus' },
+      { id: 'cond_plain_carnation', amount: 1000, unit: 'ml', label: 'นมข้นจืด Carnation ไข่เจียว' },
+    ]
+  },
+  {
+    id: 'milk_mix_other',
+    name: 'นม Mix สูตรนมสด/ชา/โกโก้',
+    yieldQty: 2758,     // ml (นมข้นหวานมะลิ 2,000 ml + นมข้นจืด 379×2=758 ml)
+    yieldUnit: 'ml',
+    note: 'นมข้นหวาน ตรามะลิ 2,000 ml + นมข้นจืด Carnation ไข่เจียว 379 ml × 2 กระป๋อง',
+    editableYield: false,
+    recipe: [
+      { id: 'cond_sweet_mali',     amount: 2000, unit: 'ml', label: 'นมข้นหวาน ตรามะลิ' },
+      { id: 'cond_plain_carnation', amount: 758,  unit: 'ml', label: 'นมข้นจืด Carnation ไข่เจียว (×2 กระป๋อง = 379×2)' },
+    ]
+  },
+  {
+    id: 'thai_tea_base',
+    name: 'น้ำเบสชาไทย',
+    yieldQty: 800,
+    yieldUnit: 'ml',
+    note: 'ผงชาไทย MIX (500:400:400) แบ่งมา 70g + น้ำร้อน 800 ml — ปรับ Yield ได้',
+    editableYield: true,
+    recipe: [
+      { id: 'tea_dragon_thai',        amount: 26.9231, unit: 'g', label: 'ชาปรุงสำเร็จ ตรามังกรบิน (สัดส่วนจาก 70g MIX)' },
+      { id: 'tea_555',                amount: 21.5385, unit: 'g', label: 'ชาผง ตรา 555 (สัดส่วนจาก 70g MIX)' },
+      { id: 'tea_gold_elephant_thai', amount: 21.5385, unit: 'g', label: 'ชาผง ตราช้างทอง (สัดส่วนจาก 70g MIX)' },
+      { id: 'hot_water',              amount: 800, unit: 'ml', label: 'น้ำร้อน (ชงเฟรนเพลส)' },
+    ]
+  },
+  {
+    id: 'green_tea_base',
+    name: 'น้ำเบสชาเขียว',
+    yieldQty: 800,
+    yieldUnit: 'ml',
+    note: 'ผงชาเขียว MIX (200:200) แบ่งมา 70g + น้ำร้อน 800 ml — ปรับ Yield ได้',
+    editableYield: true,
+    recipe: [
+      { id: 'tea_gold_elephant_green', amount: 35.0, unit: 'g', label: 'ชาเขียวผง ตราช้างทอง (สัดส่วนจาก 70g MIX)' },
+      { id: 'tea_dragon_green',        amount: 35.0, unit: 'g', label: 'ชาเขียวนม ตรามังกรบิน (สัดส่วนจาก 70g MIX)' },
+      { id: 'hot_water',               amount: 800, unit: 'ml', label: 'น้ำร้อน (ชงเฟรนเพลส)' },
+    ]
+  },
+  {
+    id: 'rose_tea_base',
+    name: 'น้ำเบสชากุหลาบ',
+    yieldQty: 240,
+    yieldUnit: 'ml',
+    note: 'ชา 1 ซอง + น้ำร้อน 240 ml — ปรับ Yield ได้',
+    editableYield: true,
+    recipe: [
+      { id: 'tea_rose', amount: 1,   unit: 'ซอง', label: 'ชากุหลาบ ตรามือ' },
+      { id: 'hot_water', amount: 240, unit: 'ml', label: 'น้ำร้อน' },
+    ]
+  },
+  {
+    id: 'earl_grey_base',
+    name: 'น้ำเบสชา Earl Grey',
+    yieldQty: 240,
+    yieldUnit: 'ml',
+    note: 'ชา 1 ซอง + น้ำร้อน 240 ml — ปรับ Yield ได้',
+    editableYield: true,
+    recipe: [
+      { id: 'tea_earl_grey', amount: 1,   unit: 'ซอง', label: 'ชา Twinings Earl Grey' },
+      { id: 'hot_water',     amount: 240, unit: 'ml', label: 'น้ำร้อน' },
+    ]
+  },
+  {
+    id: 'english_breakfast_base',
+    name: 'น้ำเบสชา English Breakfast',
+    yieldQty: 240,
+    yieldUnit: 'ml',
+    note: 'ชา Twinings English Breakfast 1 ซอง + น้ำร้อน 240 ml — ปรับ Yield ได้',
+    editableYield: true,
+    recipe: [
+      { id: 'tea_english_breakfast', amount: 1,   unit: 'ซอง', label: 'ชา Twinings English Breakfast' },
+      { id: 'hot_water',             amount: 240, unit: 'ml',  label: 'น้ำร้อน' },
+    ]
+  },
+  {
+    id: 'yogurt_homemade',
+    name: 'โยเกิร์ตโฮมเมด',
+    showInRaw: true,
+    rawGroup: 'สมูทตี้',
+    yieldQty: 1235,
+    yieldUnit: 'g',
+    note: 'โยเกิร์ต 135g + นมสด 1,000ml + นมข้นหวาน 100g — ปรับ Yield ได้',
+    editableYield: true,
+    recipe: [
+      { id: 'yogurt_raw',        amount: 135,  unit: 'g',  label: 'โยเกิร์ต (หัวเชื้อ)' },
+      { id: 'fresh_milk_smooth', amount: 1000, unit: 'ml', label: 'นมสด' },
+      { id: 'cond_sweet_smooth', amount: 100,  unit: 'g',  label: 'นมข้นหวาน' },
+    ]
+  },
+  {
+    id: 'lemon_homemade_syrup',
+    name: 'ไซรัปเลม่อนโฮมเมด',
+    showInRaw: true,
+    rawGroup: 'ไซรัป',
+    yieldQty: 550,
+    yieldUnit: 'ml',
+    note: 'เลม่อน 3 ลูก + น้ำผึ้ง 500 ml + เกลือหยาบ — ปรับ Yield ได้',
+    editableYield: true,
+    recipe: [
+      { id: 'lemon_fresh', amount: 3,   unit: 'ลูก', label: 'เลม่อนสด' },
+      { id: 'honey',       amount: 500, unit: 'ml', label: 'น้ำผึ้ง' },
+      { id: 'hot_water',   amount: 350, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'salt',        amount: 100, unit: 'g',  label: 'เกลือหยาบ' },
+    ]
+  },
+];
+
+// ============================================================
+// MENUS — ใช้ compound id และ raw id ผสมกัน
+// สำหรับ milk_mix: กาแฟใช้ milk_mix_coffee, อื่นๆใช้ milk_mix_other
+// ============================================================
+const MENUS = {
+  hot_coffee: [
+    { name: 'Hot Coffee เอสเปรสโซ่', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    { name: 'Hot Coffee อเมริกาโน่', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'hot_water', amount: 100, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    { name: 'Hot Coffee คาปูชิโน่', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'steamed_milk', amount: 120, unit: 'ml', label: 'นม Steam' },
+      { id: 'cocoa_powder', amount: 3, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    { name: 'Hot Coffee มอคค่า', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'choc_syrup', amount: 5, unit: 'ml', label: 'ซอสช็อคโกแลต' },
+      { id: 'steamed_milk', amount: 90, unit: 'ml', label: 'นม Steam' },
+      { id: 'cocoa_powder', amount: 3, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    { name: 'Hot Coffee ลาเต้', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'steamed_milk', amount: 150, unit: 'ml', label: 'นม Steam' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    { name: 'Hot Coffee ลาเต้วานิลลา', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'syrup_vanilla', amount: 7, unit: 'ml', label: 'ไซรัปวานิลลา' },
+      { id: 'steamed_milk', amount: 150, unit: 'ml', label: 'นม Steam' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    { name: 'Hot Coffee ลาเต้คาราเมล', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'syrup_caramel', amount: 7, unit: 'ml', label: 'ไซรัปคาราเมล' },
+      { id: 'steamed_milk', amount: 150, unit: 'ml', label: 'นม Steam' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+
+    { name: 'Hot Coffee คาราเมลมัคคิอาโต้', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_single', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (1 ช็อต)' },
+      { id: 'syrup_caramel', amount: 7, unit: 'ml', label: 'ไซรัปคาราเมล' },
+      { id: 'steamed_milk', amount: 150, unit: 'ml', label: 'นม Steam' },
+      { id: 'caramel_sauce', amount: 5, unit: 'ml', label: 'ซอสคาราเมล' },
+      { id: 'pkg_hot_cup', amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    { name: 'Dirty Coffee', category: 'กาแฟร้อน', ingredients: [
+      { id: 'coffee_shot_double', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'syrup_vanilla', amount: 10, unit: 'ml', label: 'ไซรัปวานิลลา' },
+      { id: 'whipcream', amount: 40, unit: 'ml', label: 'Whipcream' },
+      { id: 'fresh_milk', amount: 70, unit: 'ml', label: 'นมสด' },
+      { id: 'pkg_hot_cup',  amount: 1, unit: 'ใบ', label: 'แก้วกาแฟร้อน 8 oz พร้อมฝา', type: 'pkg' },
+    ]},
+    ],
+  coffee: [
+    { name: 'อเมริกาโน่', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 40, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'plain_water', amount: 140, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'อเมริกาโน่น้ำผึ้ง', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 40, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'honey', amount: 20, unit: 'ml', label: 'น้ำผึ้ง' },
+      { id: 'plain_water', amount: 140, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'อเมริกาโน่ส้ม', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 40, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'orange_juice', amount: 140, unit: 'ml', label: 'น้ำส้มมาลี' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_mandarin', amount: 1, unit: 'ชิ้น', label: 'ส้มแมนดารินสด', type: 'garnish', optional: true },
+    ]},
+    { name: 'อเมริกาโน่มะพร้าว', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 40, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'coconut_water', amount: 140, unit: 'ml', label: 'น้ำมะพร้าว' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_coconut_roasted', amount: 5, unit: 'g', label: 'มะพร้าวคั่ว', type: 'garnish', optional: true },
+    ]},
+    { name: 'เอสเปรสโซ่', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 40, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_coffee', amount: 35, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'คาปูชิโน่', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 35, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'milk_mix_coffee', amount: 35, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'fresh_milk', amount: 10, unit: 'ml', label: 'โฟมนม (on top)' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'มอคค่า', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 35, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'cocoa_powder', amount: 5, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'milk_mix_coffee', amount: 40, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'fresh_milk', amount: 110, unit: 'ml', label: 'นมสด' },
+      { id: 'fresh_milk', amount: 10, unit: 'ml', label: 'โฟมนม (On top)' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ลาเต้', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 35, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'milk_mix_coffee', amount: 30, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'fresh_milk', amount: 120, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ลาเต้วานิลลา', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 35, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'milk_mix_coffee', amount: 20, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'syrup_vanilla', amount: 10, unit: 'ml', label: 'ไซรัปวานิลลา' },
+      { id: 'fresh_milk', amount: 120, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ลาเต้คาราเมล', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 35, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'milk_mix_coffee', amount: 20, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'syrup_caramel', amount: 10, unit: 'ml', label: 'ไซรัปคาราเมล' },
+      { id: 'fresh_milk', amount: 120, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ลาเต้มะพร้าว', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 30, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'syrup_coconut', amount: 5, unit: 'ml', label: 'ไซรัปมะพร้าว' },
+      { id: 'milk_mix_coffee', amount: 10, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'coconut_milk', amount: 40, unit: 'ml', label: 'นมมะพร้าว' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_coconut_roasted', amount: 5, unit: 'g', label: 'มะพร้าวคั่ว', type: 'garnish', optional: true },
+    ]},
+    { name: 'คาราเมล มัคคิอาโต้', category: 'กาแฟเย็น', ingredients: [
+      { id: 'coffee_shot_double', amount: 35, unit: 'ml', label: 'น้ำกาแฟสกัด (2 ช็อต)' },
+      { id: 'syrup_caramel', amount: 10, unit: 'ml', label: 'ไซรัปคาราเมล' },
+      { id: 'milk_mix_coffee', amount: 25, unit: 'ml', label: 'นม Mix (กาแฟ)' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'fresh_milk', amount: 10, unit: 'ml', label: 'โฟมนม (on top)' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    ],
+  tea: [
+    { name: 'ชาเลม่อน', category: 'ชา', ingredients: [
+      { id: 'lemon_powder', amount: 18, unit: 'g', label: 'ผงชาเลม่อน' },
+      { id: 'hot_water', amount: 50, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'english_breakfast_base', amount: 120, unit: 'ml', label: 'เบสชา English Breakfast' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_lemon_slice', amount: 1, unit: 'ชิ้น', label: 'เลม่อนสด (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_cinnamon', amount: 1, unit: 'ชิ้น', label: 'อบเชย', type: 'garnish', optional: true },
+      { id: 'deco_star_anise', amount: 1, unit: 'ชิ้น', label: 'โป๊ยกั๊ก', type: 'garnish', optional: true },
+      { id: 'deco_rosemary', amount: 1, unit: 'ก้าน', label: 'ใบโรสแมรี่', type: 'garnish', optional: true },
+    ]},
+    { name: 'ชาเลม่อนน้ำผึ้ง', category: 'ชา', ingredients: [
+      { id: 'lemon_powder', amount: 16, unit: 'g', label: 'ผงชาเลม่อน' },
+      { id: 'hot_water', amount: 50, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'english_breakfast_base', amount: 100, unit: 'ml', label: 'เบสชา English Breakfast' },
+      { id: 'syrup_lemon_ready', amount: 30, unit: 'ml', label: 'ไซรัปเลม่อนสำเร็จรูป' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_lemon_honey', amount: 1, unit: 'ชิ้น', label: 'เลม่อนดองน้ำผึ้ง (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_cinnamon', amount: 1, unit: 'ชิ้น', label: 'อบเชย', type: 'garnish', optional: true },
+      { id: 'deco_star_anise', amount: 1, unit: 'ชิ้น', label: 'โป๊ยกั๊ก', type: 'garnish', optional: true },
+      { id: 'deco_rosemary', amount: 1, unit: 'ก้าน', label: 'ใบโรสแมรี่', type: 'garnish', optional: true },
+    ]},
+    { name: 'ชาแอปเปิ้ล', category: 'ชา', ingredients: [
+      { id: 'apple_powder', amount: 18, unit: 'g', label: 'ผงชาแอปเปิ้ล' },
+      { id: 'hot_water', amount: 50, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'english_breakfast_base', amount: 120, unit: 'ml', label: 'เบสชา English Breakfast' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_apple_slice', amount: 1, unit: 'ชิ้น', label: 'แอปเปิ้ลสด (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_cinnamon', amount: 1, unit: 'ชิ้น', label: 'อบเชย', type: 'garnish', optional: true },
+      { id: 'deco_star_anise', amount: 1, unit: 'ชิ้น', label: 'โป๊ยกั๊ก', type: 'garnish', optional: true },
+      { id: 'deco_rosemary', amount: 1, unit: 'ก้าน', label: 'ใบโรสแมรี่', type: 'garnish', optional: true },
+    ]},
+    { name: 'ชาพีช', category: 'ชา', ingredients: [
+      { id: 'peach_powder', amount: 18, unit: 'g', label: 'ผงชาพีช' },
+      { id: 'hot_water', amount: 50, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'english_breakfast_base', amount: 120, unit: 'ml', label: 'เบสชา English Breakfast' },
+      { id: 'peach_fruit', amount: 1, unit: 'ชิ้น', label: 'พีชเชื่อม' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'peach_fruit', amount: 1, unit: 'ชิ้น', label: 'พีชเชื่อม (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_cinnamon', amount: 1, unit: 'ชิ้น', label: 'อบเชย', type: 'garnish', optional: true },
+      { id: 'deco_star_anise', amount: 1, unit: 'ชิ้น', label: 'โป๊ยกั๊ก', type: 'garnish', optional: true },
+      { id: 'deco_rosemary', amount: 1, unit: 'ก้าน', label: 'ใบโรสแมรี่', type: 'garnish', optional: true },
+    ]},
+    { name: 'ชาผลไม้รวม', category: 'ชา', ingredients: [
+      { id: 'lemon_powder', amount: 10, unit: 'g', label: 'ผงชาเลม่อน' },
+      { id: 'peach_powder', amount: 10, unit: 'g', label: 'ผงชาพีช' },
+      { id: 'apple_powder', amount: 10, unit: 'g', label: 'ผงชาแอปเปิ้ล' },
+      { id: 'hot_water', amount: 50, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'english_breakfast_base', amount: 120, unit: 'ml', label: 'เบสชา English Breakfast' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_mandarin', amount: 1, unit: 'ชิ้น', label: 'ส้มแมนดารินสด (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_cinnamon', amount: 1, unit: 'ชิ้น', label: 'อบเชย', type: 'garnish', optional: true },
+      { id: 'deco_star_anise', amount: 1, unit: 'ชิ้น', label: 'โป๊ยกั๊ก', type: 'garnish', optional: true },
+      { id: 'deco_rosemary', amount: 1, unit: 'ก้าน', label: 'ใบโรสแมรี่', type: 'garnish', optional: true },
+    ]},
+    { name: 'ชาไทย', category: 'ชา', ingredients: [
+      { id: 'thai_tea_base', amount: 110, unit: 'ml', label: 'เบสชาไทย' },
+      { id: 'milk_mix_other', amount: 45, unit: 'ml', label: 'นม Mix' },
+      { id: 'cond_plain_carnation', amount: 30, unit: 'ml', label: 'นมข้นจืด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ชาเขียว', category: 'ชา', ingredients: [
+      { id: 'green_tea_base', amount: 110, unit: 'ml', label: 'เบสชาเขียว' },
+      { id: 'milk_mix_other', amount: 45, unit: 'ml', label: 'นม Mix' },
+      { id: 'cond_plain_carnation', amount: 30, unit: 'ml', label: 'นมข้นจืด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ชากุหลาบ', category: 'ชา', ingredients: [
+      { id: 'rose_tea_base', amount: 160, unit: 'ml', label: 'เบสชากุหลาบ' },
+      { id: 'honey', amount: 20, unit: 'ml', label: 'น้ำผึ้ง' },
+      { id: 'hot_water', amount: 20, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ชากุหลาบนม', category: 'ชา', ingredients: [
+      { id: 'rose_tea_base', amount: 100, unit: 'ml', label: 'เบสชากุหลาบ' },
+      { id: 'fresh_milk', amount: 50, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 30, unit: 'ml', label: 'นม Mix' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ชา Earl Grey', category: 'ชา', ingredients: [
+      { id: 'earl_grey_base', amount: 160, unit: 'ml', label: 'เบสชา Earl Grey' },
+      { id: 'honey', amount: 20, unit: 'ml', label: 'น้ำผึ้ง' },
+      { id: 'hot_water', amount: 20, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'ชา Earl Grey นม', category: 'ชา', ingredients: [
+      { id: 'earl_grey_base', amount: 100, unit: 'ml', label: 'เบสชา Earl Grey' },
+      { id: 'fresh_milk', amount: 50, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 30, unit: 'ml', label: 'นม Mix' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    ],
+  cocoa: [
+    { name: 'โกโก้เย็น', category: 'โกโก้', ingredients: [
+      { id: 'cocoa_powder', amount: 15, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'milk_mix_other', amount: 45, unit: 'ml', label: 'นม Mix' },
+      { id: 'hot_water', amount: 30, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'โกโก้เย็น (ลาวา)', category: 'โกโก้', ingredients: [
+      { id: 'cocoa_powder', amount: 15, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'milk_mix_other', amount: 100, unit: 'ml', label: 'นม Mix (ซอส+ในแก้ว)' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'โกโก้ชาเขียว (ลาวา)', category: 'โกโก้', ingredients: [
+      { id: 'cocoa_powder', amount: 15, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'milk_mix_other', amount: 110, unit: 'ml', label: 'นม Mix (ซอส+ในแก้ว)' },
+      { id: 'green_tea_base', amount: 70, unit: 'ml', label: 'เบสชาเขียว' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'โกโก้ชาไทย (ลาวา)', category: 'โกโก้', ingredients: [
+      { id: 'cocoa_powder', amount: 15, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'milk_mix_other', amount: 110, unit: 'ml', label: 'นม Mix (ซอส+ในแก้ว)' },
+      { id: 'thai_tea_base', amount: 70, unit: 'ml', label: 'เบสชาไทย' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'โกโก้คาราเมล', category: 'โกโก้', ingredients: [
+      { id: 'cocoa_powder', amount: 15, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'milk_mix_other', amount: 30, unit: 'ml', label: 'นม Mix' },
+      { id: 'syrup_caramel', amount: 20, unit: 'ml', label: 'ไซรัปคาราเมล' },
+      { id: 'hot_water', amount: 30, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'โกโก้มินต์', category: 'โกโก้', ingredients: [
+      { id: 'cocoa_powder', amount: 15, unit: 'g', label: 'ผงโกโก้' },
+      { id: 'milk_mix_other', amount: 30, unit: 'ml', label: 'นม Mix' },
+      { id: 'syrup_mint', amount: 20, unit: 'ml', label: 'ไซรัปมินต์' },
+      { id: 'hot_water', amount: 30, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'fresh_milk', amount: 100, unit: 'ml', label: 'นมสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+  ],
+  milk: [
+    { name: 'นมสดเย็น', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 160, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 20, unit: 'ml', label: 'นม Mix' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'นมสดน้ำผึ้ง', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 140, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 20, unit: 'ml', label: 'นม Mix' },
+      { id: 'honey', amount: 10, unit: 'ml', label: 'น้ำผึ้ง' },
+      { id: 'hot_water', amount: 10, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'นมสดวานิลลา', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 150, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 20, unit: 'ml', label: 'นม Mix' },
+      { id: 'syrup_vanilla', amount: 10, unit: 'ml', label: 'ไซรัปวานิลลา' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'นมชมพู', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 150, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 10, unit: 'ml', label: 'นม Mix' },
+      { id: 'red_drink', amount: 20, unit: 'ml', label: 'น้ำแดงเฮลซ์บลูบอย' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'นมสดคาราเมล', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 150, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 10, unit: 'ml', label: 'นม Mix' },
+      { id: 'syrup_caramel', amount: 10, unit: 'ml', label: 'ไซรัปคาราเมล' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'นมสดมะพร้าว', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 120, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 20, unit: 'ml', label: 'นม Mix' },
+      { id: 'coconut_milk', amount: 45, unit: 'ml', label: 'นมมะพร้าว' },
+      { id: 'syrup_coconut', amount: 5, unit: 'ml', label: 'ไซรัปมะพร้าว' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'นมสดมินต์', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 150, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 10, unit: 'ml', label: 'นม Mix' },
+      { id: 'syrup_mint', amount: 10, unit: 'ml', label: 'ไซรัปมินต์' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'นมสดพีช', category: 'นมสด', ingredients: [
+      { id: 'fresh_milk', amount: 150, unit: 'ml', label: 'นมสด' },
+      { id: 'milk_mix_other', amount: 15, unit: 'ml', label: 'นม Mix' },
+      { id: 'peach_fruit', amount: 1, unit: 'ชิ้น', label: 'เนื้อพีช' },
+      { id: 'syrup_peach', amount: 15, unit: 'ml', label: 'ไซรัปพีช' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+  ],
+  smoothie: [
+    { name: 'สตรอว์เบอร์รี่สมูทตี้', category: 'สมูทตี้', ingredients: [
+      { id: 'strawberry_frozen', amount: 45, unit: 'g', label: 'สตรอว์เบอร์รี่แช่แข็ง' },
+      { id: 'syrup_strawberry', amount: 45, unit: 'ml', label: 'ไซรัปสตรอว์เบอร์รี่' },
+      { id: 'plain_water', amount: 60, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'smoothie_powder', amount: 2.5, unit: 'g', label: 'ผงสมูทตี้' },
+      { id: 'salt_fine', amount: 2, unit: 'g', label: 'เกลือป่น' },
+      { id: 'ice', amount: 350, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'สตรอว์เบอร์รี่โยเกิร์ตสมูทตี้', category: 'สมูทตี้', ingredients: [
+      { id: 'strawberry_frozen', amount: 45, unit: 'g', label: 'สตรอว์เบอร์รี่แช่แข็ง' },
+      { id: 'syrup_strawberry', amount: 45, unit: 'ml', label: 'ไซรัปสตรอว์เบอร์รี่' },
+      { id: 'plain_water', amount: 60, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'smoothie_powder', amount: 2.5, unit: 'g', label: 'ผงสมูทตี้' },
+      { id: 'salt_fine', amount: 2, unit: 'g', label: 'เกลือป่น' },
+      { id: 'ice', amount: 350, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'yogurt_homemade', amount: 60, unit: 'g', label: 'โยเกิร์ตโฮมเมด' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'บลูเบอร์รี่สมูทตี้', category: 'สมูทตี้', ingredients: [
+      { id: 'blueberry_frozen', amount: 45, unit: 'g', label: 'บลูเบอร์รี่แช่แข็ง' },
+      { id: 'syrup_blueberry', amount: 45, unit: 'ml', label: 'ไซรัปบลูเบอร์รี่' },
+      { id: 'plain_water', amount: 60, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'smoothie_powder', amount: 2.5, unit: 'g', label: 'ผงสมูทตี้' },
+      { id: 'salt_fine', amount: 2, unit: 'g', label: 'เกลือป่น' },
+      { id: 'ice', amount: 350, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'บลูเบอร์รี่โยเกิร์ตสมูทตี้', category: 'สมูทตี้', ingredients: [
+      { id: 'blueberry_frozen', amount: 45, unit: 'g', label: 'บลูเบอร์รี่แช่แข็ง' },
+      { id: 'syrup_blueberry', amount: 45, unit: 'ml', label: 'ไซรัปบลูเบอร์รี่' },
+      { id: 'plain_water', amount: 60, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'smoothie_powder', amount: 2.5, unit: 'g', label: 'ผงสมูทตี้' },
+      { id: 'salt_fine', amount: 2, unit: 'g', label: 'เกลือป่น' },
+      { id: 'ice', amount: 350, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'yogurt_homemade', amount: 60, unit: 'g', label: 'โยเกิร์ตโฮมเมด' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'มิกซ์เบอร์รี่สมูทตี้', category: 'สมูทตี้', ingredients: [
+      { id: 'mixberry_frozen', amount: 45, unit: 'g', label: 'มิกซ์เบอร์รี่แช่แข็ง' },
+      { id: 'syrup_mixberry', amount: 45, unit: 'ml', label: 'ไซรัปมิกซ์เบอร์รี่' },
+      { id: 'plain_water', amount: 60, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'smoothie_powder', amount: 2.5, unit: 'g', label: 'ผงสมูทตี้' },
+      { id: 'salt_fine', amount: 2, unit: 'g', label: 'เกลือป่น' },
+      { id: 'ice', amount: 350, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'มิกซ์เบอร์รี่โยเกิร์ตสมูทตี้', category: 'สมูทตี้', ingredients: [
+      { id: 'mixberry_frozen', amount: 45, unit: 'g', label: 'มิกซ์เบอร์รี่แช่แข็ง' },
+      { id: 'syrup_mixberry', amount: 45, unit: 'ml', label: 'ไซรัปมิกซ์เบอร์รี่' },
+      { id: 'plain_water', amount: 60, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'smoothie_powder', amount: 2.5, unit: 'g', label: 'ผงสมูทตี้' },
+      { id: 'salt_fine', amount: 2, unit: 'g', label: 'เกลือป่น' },
+      { id: 'ice', amount: 350, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'yogurt_homemade', amount: 60, unit: 'g', label: 'โยเกิร์ตโฮมเมด' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+  ],
+  matcha: [
+    { name: 'Pure Matcha', category: 'มัทฉะ', ingredients: [
+      { id: 'matcha_powder',     amount: 3.5, unit: 'g',  label: 'ผงมัทฉะ' },
+      { id: 'hot_water',         amount: 20,  unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'plain_water',       amount: 130, unit: 'ml', label: 'น้ำเปล่า' },
+      { id: 'ice',               amount: 200, unit: 'g',  label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup',      amount: 1,   unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'Matcha Latte', category: 'มัทฉะ', ingredients: [
+      { id: 'matcha_powder',     amount: 5,   unit: 'g',  label: 'ผงมัทฉะ' },
+      { id: 'fresh_milk_matcha', amount: 150, unit: 'ml', label: 'นมสด (สำหรับมัทฉะ)' },
+      { id: 'ice',               amount: 200, unit: 'g',  label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup',      amount: 1,   unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+    { name: 'Matcha Cold Whisk', category: 'มัทฉะ', ingredients: [
+      { id: 'matcha_powder',     amount: 5,   unit: 'g',  label: 'ผงมัทฉะ' },
+      { id: 'fresh_milk_matcha', amount: 150, unit: 'ml', label: 'นมสด (สำหรับมัทฉะ)' },
+      { id: 'ice',               amount: 200, unit: 'g',  label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup',      amount: 1,   unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+    ]},
+  ],
+  soda: [
+    { name: 'แดงโซดา', category: 'โซดา', ingredients: [
+      { id: 'soda_water', amount: 160, unit: 'ml', label: 'โซดา' },
+      { id: 'red_drink', amount: 50, unit: 'ml', label: 'น้ำแดงเฮลซ์บลูบอย' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'แดงมะนาวโซดา', category: 'โซดา', ingredients: [
+      { id: 'soda_water', amount: 160, unit: 'ml', label: 'โซดา' },
+      { id: 'red_drink', amount: 40, unit: 'ml', label: 'น้ำแดงเฮลซ์บลูบอย' },
+      { id: 'lemon_juice', amount: 10, unit: 'ml', label: 'น้ำมะนาวสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_lime_slice', amount: 1, unit: 'ชิ้น', label: 'มะนาวสด (ชิ้น)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'มะนาวโซดา', category: 'โซดา', ingredients: [
+      { id: 'soda_water', amount: 100, unit: 'ml', label: 'โซดา' },
+      { id: 'lemon_juice', amount: 30, unit: 'ml', label: 'น้ำมะนาวสด' },
+      { id: 'sugar_syrup', amount: 20, unit: 'ml', label: 'น้ำเชื่อม' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_lime_slice', amount: 1, unit: 'ชิ้น', label: 'มะนาวสด (ชิ้น)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'น้ำผึ้งมะนาวโซดา', category: 'โซดา', ingredients: [
+      { id: 'soda_water', amount: 100, unit: 'ml', label: 'โซดา' },
+      { id: 'lemon_juice', amount: 30, unit: 'ml', label: 'น้ำมะนาวสด' },
+      { id: 'honey', amount: 30, unit: 'ml', label: 'น้ำผึ้ง' },
+      { id: 'hot_water', amount: 30, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_lemon_honey', amount: 1, unit: 'ชิ้น', label: 'เลม่อนดองน้ำผึ้ง (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'บ๊วยโซดา', category: 'โซดา', ingredients: [
+      { id: 'soda_water', amount: 100, unit: 'ml', label: 'โซดา' },
+      { id: 'plum_juice', amount: 40, unit: 'ml', label: 'น้ำบ๊วย' },
+      { id: 'lemon_juice', amount: 5, unit: 'ml', label: 'น้ำมะนาวสด' },
+      { id: 'sugar_syrup', amount: 30, unit: 'ml', label: 'น้ำเชื่อม' },
+      { id: 'hot_water', amount: 20, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'plum_fruit', amount: 1, unit: 'ลูก', label: 'บ๊วยดอง' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'plum_fruit', amount: 1, unit: 'ลูก', label: 'บ๊วยดอง (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'น้ำผึ้งบ๊วยโซดา', category: 'โซดา', ingredients: [
+      { id: 'soda_water', amount: 100, unit: 'ml', label: 'โซดา' },
+      { id: 'honey', amount: 40, unit: 'ml', label: 'น้ำผึ้ง' },
+      { id: 'hot_water', amount: 30, unit: 'ml', label: 'น้ำร้อน' },
+      { id: 'plum_fruit', amount: 1, unit: 'ลูก', label: 'บ๊วยดอง' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'plum_fruit', amount: 1, unit: 'ลูก', label: 'บ๊วยดอง (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'สไปร์ทบ๊วยโซดา', category: 'โซดา', ingredients: [
+      { id: 'sprite', amount: 140, unit: 'ml', label: 'สไปร์ท' },
+      { id: 'plum_juice', amount: 20, unit: 'ml', label: 'น้ำบ๊วย' },
+      { id: 'plum_fruit', amount: 1, unit: 'ลูก', label: 'บ๊วยดอง' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'plum_fruit', amount: 1, unit: 'ลูก', label: 'บ๊วยดอง (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'สไปร์ทน้ำผึ้งมะนาวโซดา', category: 'โซดา', ingredients: [
+      { id: 'sprite', amount: 120, unit: 'ml', label: 'สไปร์ท' },
+      { id: 'syrup_lemon_ready', amount: 40, unit: 'ml', label: 'ไซรัปเลม่อนสำเร็จรูป' },
+      { id: 'lemon_juice', amount: 5, unit: 'ml', label: 'น้ำมะนาวสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_lemon_honey', amount: 1, unit: 'ชิ้น', label: 'เลม่อนดองน้ำผึ้ง (ตกแต่ง)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+    { name: 'บลูฮาวายโซดา', category: 'โซดา', ingredients: [
+      { id: 'soda_water', amount: 120, unit: 'ml', label: 'โซดา' },
+      { id: 'syrup_blue_hawaii', amount: 40, unit: 'ml', label: 'ไซรัปบลูฮาวาย' },
+      { id: 'lemon_juice', amount: 10, unit: 'ml', label: 'น้ำมะนาวสด' },
+      { id: 'ice', amount: 200, unit: 'g', label: 'น้ำแข็ง' },
+      { id: 'pkg_cold_cup', amount: 1, unit: 'ใบ', label: 'แก้วพลาสติก 16oz', type: 'pkg' },
+      { id: 'deco_lime_slice', amount: 1, unit: 'ชิ้น', label: 'มะนาวสด (ชิ้น)', type: 'garnish', optional: true },
+      { id: 'deco_mint', amount: 1, unit: 'ก้าน', label: 'ใบมินต์', type: 'garnish', optional: true },
+    ]},
+  ],
+};
+// STATE below
+
+// ============================================================
+// STATE
+// ============================================================
+let rawBuyPrices = {};  // id -> ราคาที่ซื้อ (฿)
+let rawBrands    = {};  // id -> ยี่ห้อ (optional)
+let rawChecked   = {};  // id -> checked
+let rawBuyQtys   = {};  // id -> ปริมาณที่ได้รับ
+let rawCPU       = {};  // id -> ราคา/หน่วย (computed)
+let compoundYields = {}; // id -> yield qty (อาจแก้ได้)
+let compoundRecipeAmounts = {}; // id+ingredient -> overridden amount (for coffee_shot)
+let compoundCPU  = {};  // id -> ราคา/หน่วย (computed)
+let sellPrices   = {};  // menu name -> ราคาขาย
+
+function loadData() {
+  try {
+    const r = localStorage.getItem('cafe2_raw');
+    if (r) { const d = JSON.parse(r); rawBuyPrices = d.bp||{}; rawBuyQtys = d.bq||{}; }
+    const cy = localStorage.getItem('cafe2_compound_yields');
+    if (cy) compoundYields = JSON.parse(cy);
+    const sp = localStorage.getItem('cafe2_sell');
+    if (sp) sellPrices = JSON.parse(sp);
+    const ca = localStorage.getItem('cafe2_compound_amounts');
+    if (ca) compoundRecipeAmounts = JSON.parse(ca);
+    const br = localStorage.getItem('cafe2_brands');
+    if (br) rawBrands = JSON.parse(br);
+    const ch = localStorage.getItem('cafe2_checked');
+    if (ch) rawChecked = JSON.parse(ch);
+    // Migration: if coffee_shot yield was saved as old default 30, reset to 36
+    // migration: clear old coffee_shot keys
+    ['coffee_shot'].forEach(k => { delete compoundYields[k]; });
+  } catch(e) {}
+  recalcAll();
+}
+
+function recalcAll() {
+  // 1. raw CPU
+  RAW_INGREDIENTS.forEach(ing => {
+    const bp = parseFloat(rawBuyPrices[ing.id]) || 0;
+    const bq = parseFloat(rawBuyQtys[ing.id]) || 1;
+    rawCPU[ing.id] = bq > 0 ? bp / bq : 0;
+  });
+  // 2. compound CPU
+  COMPOUND.forEach(c => {
+    const yld = parseFloat(compoundYields[c.id]) || c.yieldQty;
+    let totalCost = 0;
+    c.recipe.forEach(r => {
+      const amtKey = c.id + '_' + r.id;
+      const amt = parseFloat(compoundRecipeAmounts[amtKey]) || r.amount;
+      totalCost += (rawCPU[r.id] || 0) * amt;
+    });
+    compoundCPU[c.id] = yld > 0 ? totalCost / yld : 0;
+  });
+}
+
+function getCPU(id) {
+  if (rawCPU[id] !== undefined) return rawCPU[id];
+  if (compoundCPU[id] !== undefined) return compoundCPU[id];
+  return 0;
+}
+
+// Helpers for ingredient type detection
+function ingType(ing) {
+  if (ing.type) return ing.type;
+  if (COMPOUND.some(c => c.id === ing.id)) return 'compound';
+  return 'raw';
+}
+
+function saveAll(btn) {
+  // read raw inputs
+  RAW_INGREDIENTS.forEach(ing => {
+    const bpEl = document.getElementById('rbp_' + ing.id);
+    const bqEl = document.getElementById('rbq_' + ing.id);
+    if (bpEl) rawBuyPrices[ing.id] = parseFloat(bpEl.value) || 0;
+    if (bqEl) rawBuyQtys[ing.id] = parseFloat(bqEl.value) || 1;
+  });
+  // read compound yields + recipe amount overrides
+  COMPOUND.forEach(c => {
+    if (c.editableYield) {
+      const el = document.getElementById('cyield_' + c.id);
+      if (el) compoundYields[c.id] = parseFloat(el.value) || c.yieldQty;
+    }
+    // save editable recipe ingredient amounts (e.g. coffee beans)
+    c.recipe.forEach(r => {
+      const amtKey = c.id + '_' + r.id;
+      const el = document.getElementById('cramount_' + amtKey);
+      if (el) compoundRecipeAmounts[amtKey] = parseFloat(el.value) || r.amount;
+    });
+  });
+  recalcAll();
+  try {
+    localStorage.setItem('cafe2_raw', JSON.stringify({ bp: rawBuyPrices, bq: rawBuyQtys }));
+    localStorage.setItem('cafe2_compound_yields', JSON.stringify(compoundYields));
+    localStorage.setItem('cafe2_compound_amounts', JSON.stringify(compoundRecipeAmounts));
+        localStorage.setItem('cafe2_brands', JSON.stringify(rawBrands));
+        localStorage.setItem('cafe2_checked', JSON.stringify(rawChecked));
+    localStorage.setItem('cafe2_sell', JSON.stringify(sellPrices));
+  } catch(e) {}
+  renderRawCPU();
+  renderCompoundCards();
+  renderAllMenus();
+  renderPricing();
+  if (btn) { btn.textContent = '✅ บันทึกแล้ว!'; setTimeout(() => btn.textContent = '💾 บันทึกทั้งหมด', 1500); }
+}
+
+// ============================================================
+// RENDER RAW
+// ============================================================
+function renderRawTable() {
+  const tbody = document.getElementById('raw-tbody');
+  let lastGroup = '';
+  let html = '';
+  const checkedIds = new Set(Object.keys(rawChecked).filter(k => rawChecked[k]));
+  // รวม compound ที่ showInRaw:true เข้าในหมวด
+  const allRaw = [...RAW_INGREDIENTS];
+  COMPOUND.filter(c => c.showInRaw).forEach(c => {
+    const cr = { id: c.id, name: c.name, unit: c.yieldUnit, group: c.rawGroup||'ไซรัป', isCompound: true };
+    let lastIdx = -1;
+    allRaw.forEach((r,i) => { if(r.group===cr.group) lastIdx=i; });
+    if(lastIdx>=0) allRaw.splice(lastIdx+1,0,cr); else allRaw.push(cr);
+  });
+  allRaw.forEach(ing => {
+    if (ing.group !== lastGroup) {
+      lastGroup = ing.group;
+      html += `<tr style="background:#F5EFD8"><td colspan="7" style="padding:7px 16px; font-size:12px; font-weight:600; color:var(--brown-mid); letter-spacing:0.5px">— ${ing.group} —</td></tr>`;
+    }
+    const bp = ing.isCompound ? '' : (rawBuyPrices[ing.id] || '');
+    const bq = ing.isCompound ? '' : (rawBuyQtys[ing.id] || '');
+    const cpu = ing.isCompound ? (compoundCPU[ing.id]||0) : (rawCPU[ing.id] || 0);
+    const brand = rawBrands[ing.id] || '';
+    html += `<tr id="row_${ing.id}" class="${checkedIds.has(ing.id)?'row-checked':''}">
+      <td class="col-check" style="width:28px;min-width:28px;max-width:28px;padding:2px 4px;text-align:center"><input type="checkbox" class="ing-check" ${checkedIds.has(ing.id)?'checked':''} onchange="toggleCheck('${ing.id}',this)"></td>
+      <td style="font-weight:500">${ing.name}</td>
+      <td class="col-brand"><input class="price-input" type="text" placeholder="ยี่ห้อ" style="width:100%;max-width:100px;text-align:left;font-size:12px" id="rbrand_${ing.id}" value="${brand}" oninput="onBrandInput(\'${ing.id}\',this.value)"></td>
+      <td style="font-size:12px; color:var(--brown-light)">${ing.unit}</td>
+      ${ing.isCompound
+        ? '<td colspan="2" style="font-size:11px;color:var(--blue);font-style:italic;padding:8px 10px">คำนวณจากวัตถุดิบผสม (ดูหน้าวัตถุดิบผสม)</td>'
+        : `<td><input class="price-input" type="number" min="0" step="0.01" placeholder="0.00"
+            id="rbp_${ing.id}" value="${bp}" oninput="onRawInput('${ing.id}')"></td>
+      <td>
+        <input class="price-input" type="number" min="0.001" step="1" placeholder="1"
+            id="rbq_${ing.id}" value="${bq}" oninput="onRawInput('${ing.id}')">
+        <span style="font-size:11px;color:var(--brown-light);margin-left:4px">${ing.unit}</span>
+      </td>`}
+      <td class="cpu-cell ${cpu>0?'':'zero'}" id="rcpu_${ing.id}">${cpu>0?cpu.toFixed(4)+' ฿':'—'}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+function renderRawCPU() {
+  RAW_INGREDIENTS.forEach(ing => {
+    const el = document.getElementById('rcpu_' + ing.id);
+    if (!el) return;
+    const cpu = rawCPU[ing.id] || 0;
+    el.textContent = cpu > 0 ? cpu.toFixed(4) + ' ฿' : '—';
+    el.className = 'cpu-cell ' + (cpu > 0 ? '' : 'zero');
+  });
+}
+
+function toggleCheck(id, el) {
+  rawChecked[id] = el.checked;
+  const row = document.getElementById('row_' + id);
+  if (row) row.className = el.checked ? 'row-checked' : '';
+  try { localStorage.setItem('cafe2_checked', JSON.stringify(rawChecked)); } catch(e) {}
+}
+
+function onBrandInput(id, val) {
+  rawBrands[id] = val;
+  try { localStorage.setItem('cafe2_brands', JSON.stringify(rawBrands)); } catch(e) {}
+}
+
+function onRawInput(id) {
+  const bpEl = document.getElementById('rbp_' + id);
+  const bqEl = document.getElementById('rbq_' + id);
+  rawBuyPrices[id] = parseFloat(bpEl ? bpEl.value : 0) || 0;
+  rawBuyQtys[id]   = parseFloat(bqEl ? bqEl.value : 0) || 1;
+  recalcAll();
+  renderRawCPU();
+  renderCompoundCards();
+  renderAllMenus();
+  renderPricing();
+}
+
+// ============================================================
+// RENDER COMPOUND
+// ============================================================
+function renderCompoundCards() {
+  const container = document.getElementById('compound-cards');
+  container.innerHTML = COMPOUND.map(c => {
+    const yld = parseFloat(compoundYields[c.id]) || c.yieldQty;
+    let totalCost = 0;
+
+    const isCoffee = c.id === 'coffee_shot_single' || c.id === 'coffee_shot_double';
+
+    const rows = c.recipe.map(r => {
+      const amtKey = c.id + '_' + r.id;
+      const amt = parseFloat(compoundRecipeAmounts[amtKey]) || r.amount;
+      const cpu = rawCPU[r.id] || 0;
+      const cost = cpu * amt;
+      totalCost += cost;
+      // For coffee_shot recipe ingredients, show editable amount input
+      const amtDisplay = isCoffee
+        ? `<input class="price-input" type="number" min="1" step="0.5" style="width:70px;text-align:right"
+             id="cramount_${amtKey}" value="${amt}" oninput="onCoffeeAmountInput()"> ${r.unit}`
+        : `${amt} ${r.unit}`;
+      return `<div class="compound-ing-row">
+        <span class="compound-ing-name">${r.label}</span>
+        <span class="compound-ing-amount">${amtDisplay}</span>
+        <span class="compound-ing-cost">${cpu>0?cost.toFixed(3)+' ฿':'—'}</span>
+      </div>`;
+    }).join('');
+
+    const cpu = yld > 0 ? totalCost / yld : 0;
+
+    // Yield input
+    const yieldInput = c.editableYield
+      ? `<input class="price-input" type="number" min="1" step="0.5" style="width:70px"
+           id="cyield_${c.id}" value="${yld}" oninput="onYieldInput('${c.id}')"> ${c.yieldUnit}`
+      : `<strong>${yld} ${c.yieldUnit}</strong>`;
+
+    // Ratio badge for coffee
+    let ratioBadge = '';
+    if (isCoffee) {
+      const beansAmtKey = c.id + '_coffee_beans';
+      const defaultBeans = c.id === 'coffee_shot_single' ? 10 : 18;
+      const beansAmt = parseFloat(compoundRecipeAmounts[beansAmtKey]) || defaultBeans;
+      const ratio = yld > 0 ? (yld / beansAmt).toFixed(2) : '—';
+      ratioBadge = `<div style="margin-top:8px;padding:8px 12px;background:rgba(201,168,76,0.12);border:1px solid var(--gold-light);border-radius:8px;font-size:13px;">
+        <span style="color:var(--brown-light)">อัตราส่วน เมล็ด : น้ำสกัด =</span>
+        <strong style="color:var(--gold);margin-left:6px">1 : ${ratio}</strong>
+        <span style="color:var(--brown-light);font-size:11px;margin-left:8px">(${beansAmt} g → ${yld} g)</span>
+      </div>`;
+    }
+
+    return `<div class="compound-card">
+      <div class="compound-card-header">
+        <div class="compound-card-title">${c.name} <span class="compound-tag">ผสม</span></div>
+        <div class="compound-card-yield" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:12px;color:var(--green);font-weight:500">Yield (น้ำสกัดที่ได้):</span>
+          ${yieldInput}
+        </div>
+      </div>
+      <div class="compound-card-body">
+        ${isCoffee ? `<div style="font-size:11px;color:var(--brown-light);margin-bottom:8px;font-style:italic">✏️ แก้ไขปริมาณเมล็ดกาแฟบดและ Yield ได้โดยตรง — กด "บันทึก" เพื่อบันทึก</div>` : ''}
+        ${rows}
+        ${ratioBadge}
+        <div class="compound-total" style="margin-top:${isCoffee?'12px':'10px'}">
+          <span class="compound-total-label">ต้นทุนรวม / batch</span>
+          <span class="compound-total-value">${totalCost>0?totalCost.toFixed(2)+' ฿':'—'}</span>
+        </div>
+        <div class="compound-cpu" id="ccpu_${c.id}">
+          ราคา / ${c.yieldUnit}: ${cpu>0?cpu.toFixed(4)+' ฿':'(ยังไม่มีราคาวัตถุดิบ)'}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function onYieldInput(id) {
+  const el = document.getElementById('cyield_' + id);
+  compoundYields[id] = parseFloat(el ? el.value : 0) || 1;
+  recalcAll();
+  renderCompoundCards(); // re-render to update ratio badge
+  renderAllMenus();
+  renderPricing();
+}
+
+function onCoffeeAmountInput() {
+  ['coffee_shot_single', 'coffee_shot_double'].forEach(cid => {
+    const c = COMPOUND.find(x => x.id === cid);
+    if (!c) return;
+    c.recipe.forEach(r => {
+      const amtKey = cid + '_' + r.id;
+      const el = document.getElementById('cramount_' + amtKey);
+      if (el) compoundRecipeAmounts[amtKey] = parseFloat(el.value) || r.amount;
+    });
+  });
+  recalcAll();
+  renderCompoundCards();
+  renderAllMenus();
+  renderPricing();
+}
+
+// ============================================================
+// RENDER MENUS
+// ============================================================
+function isCompound(id) { return COMPOUND.some(c => c.id === id); }
+
+function renderMenuGrid(gridId, menus) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  // Drag hint
+  const hintEl = grid.previousElementSibling;
+  if (hintEl && !hintEl.classList.contains('drag-hint')) {
+    const hint = document.createElement('div');
+    hint.className = 'drag-hint';
+    hint.textContent = '✋ กดค้างแล้วลากเพื่อจัดลำดับการ์ด';
+    grid.parentNode.insertBefore(hint, grid);
+  }
+  grid.innerHTML = menus.map(menu => {
+    let totalRequired = 0;
+    let totalOptional = 0;
+    const rows = menu.ingredients.map(ing => {
+      const cpu = getCPU(ing.id);
+      const cost = cpu * ing.amount;
+      const t = ingType(ing);
+      const isOpt = ing.optional === true;
+      if (isOpt) totalOptional += cost;
+      else totalRequired += cost;
+
+      // Tag
+      let tagHtml = '';
+      if (t === 'compound') tagHtml = '<span class="derived-tag">ผสม</span>';
+      else if (t === 'pkg') tagHtml = '<span class="pkg-tag">บรรจุภัณฑ์</span>';
+      else if (t === 'garnish' && isOpt) tagHtml = '<span class="optional-tag">ตกแต่ง*</span>';
+      else if (t === 'garnish') tagHtml = '<span class="garnish-tag">ตกแต่ง</span>';
+
+      const costClass = cost === 0 ? 'zero' : t === 'compound' ? 'derived' : t === 'pkg' ? 'pkg' : t === 'garnish' ? 'garnish' : '';
+      return `<li style="${isOpt?'opacity:0.7':''}">
+        <span class="ing-label">${ing.label}${tagHtml}</span>
+        <span class="ing-amount">${ing.amount} ${ing.unit}</span>
+        <span class="ing-cost-val ${costClass}">${cost>0?cost.toFixed(2)+' ฿':'—'}</span>
+      </li>`;
+    }).join('');
+
+    const totalAll = totalRequired + totalOptional;
+    const menuImg = MENU_IMAGES[menu.name];
+    return `<div class="menu-card">
+      <div class="card-header">
+        <div class="card-header-text">
+          <div class="card-menu-name">${menu.name}</div>
+          <div class="card-category">หมวด${menu.category}</div>
+        </div>
+        <div class="card-cost-badge">${totalRequired>0?totalRequired.toFixed(2)+' ฿':'? ฿'}</div>
+        ${menuImg ? `<img class="card-drink-img" src="${menuImg}" alt="${menu.name}" loading="lazy">` : ''}
+      </div>
+      <div class="card-body">
+        <ul class="ingredients-list">${rows}</ul>
+        <div class="card-footer" style="flex-direction:column;align-items:stretch;gap:4px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="cost-label">ต้นทุนวัตถุดิบ + บรรจุภัณฑ์</span>
+            <span class="cost-total">${totalRequired>0?totalRequired.toFixed(2):'—'}<span class="baht">฿</span></span>
+          </div>
+          ${totalOptional>0?`<div style="display:flex;justify-content:space-between;align-items:center;opacity:0.7">
+            <span class="cost-label" style="color:#8B6914">+ ตกแต่งแก้ว (optional)</span>
+            <span style="font-size:13px;font-weight:600;color:#8B6914">+${totalOptional.toFixed(2)} ฿</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--gold-light);padding-top:4px">
+            <span class="cost-label">รวมทั้งหมด (ถ้าตกแต่งครบ)</span>
+            <span style="font-size:16px;font-weight:700;color:var(--brown-mid);font-family:'Sarabun',sans-serif">${totalAll.toFixed(2)}<span style="font-size:12px;font-family:'Sarabun',sans-serif"> ฿</span></span>
+          </div>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderAllMenus() {
+  renderMenuGrid('grid-coffee', MENUS.coffee);
+  renderMenuGrid('grid-tea',    MENUS.tea);
+  renderMenuGrid('grid-cocoa',  MENUS.cocoa);
+  renderMenuGrid('grid-milk',   MENUS.milk);
+  renderMenuGrid('grid-hot_coffee', MENUS.hot_coffee);
+  renderMenuGrid('grid-smoothie',   MENUS.smoothie);
+  renderMenuGrid('grid-matcha',   MENUS.matcha);
+  renderMenuGrid('grid-soda',   MENUS.soda);
+}
+
+// ============================================================
+// RENDER PRICING
+// ============================================================
+let pricingFilterActive = 'ทั้งหมด';
+
+function renderPricing() {
+  const allMenus = [...MENUS.hot_coffee, ...MENUS.coffee, ...MENUS.tea, ...MENUS.cocoa, ...MENUS.milk, ...MENUS.soda, ...MENUS.smoothie, ...MENUS.matcha];
+  const filterBar = document.getElementById('pricing-filter');
+  if (!filterBar.dataset.rendered) {
+    filterBar.dataset.rendered = '1';
+    ['ทั้งหมด','กาแฟร้อน','กาแฟเย็น','ชา','โกโก้','นมสด','โซดา','สมูทตี้','มัทฉะ'].forEach((cat, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (i===0?' active':'');
+      btn.textContent = cat;
+      btn.onclick = () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        pricingFilterActive = cat;
+        renderPricingGrid(allMenus, cat);
+      };
+      filterBar.appendChild(btn);
+    });
+  }
+  renderPricingGrid(allMenus, pricingFilterActive);
+}
+
+function renderPricingGrid(allMenus, filter) {
+  const grid = document.getElementById('pricing-grid');
+  const filtered = filter==='ทั้งหมด' ? allMenus : allMenus.filter(m => m.category===filter);
+  grid.innerHTML = filtered.map(menu => {
+    const costNo  = menu.ingredients.filter(i=>!i.optional).reduce((s,i)=>s+getCPU(i.id)*i.amount,0);
+    const costAll = menu.ingredients.reduce((s,i)=>s+getCPU(i.id)*i.amount,0);
+    const hasGarnish = menu.ingredients.some(i=>i.optional) && costAll > costNo;
+    const sell = parseFloat(sellPrices[menu.name]) || 0;
+    const p1=sell>0?sell-costNo:0, m1=sell>0?(p1/sell)*100:0, bw1=Math.min(Math.max(m1,0),100);
+    const mc1=m1>=60?'var(--green)':m1>=40?'var(--gold)':'var(--red)';
+    const p2=sell>0?sell-costAll:0, m2=sell>0?(p2/sell)*100:0, bw2=Math.min(Math.max(m2,0),100);
+    const mc2=m2>=60?'var(--green)':m2>=40?'var(--gold)':'var(--red)';
+    return `<div class="pricing-card">
+      <div class="pricing-card-name">${menu.name} <span style="font-size:11px;color:var(--brown-light);font-weight:400">(${menu.category})</span></div>
+      <div class="pricing-row">
+        <span class="pricing-label">ต้นทุน (วัตถุดิบ+บรรจุภัณฑ์)</span>
+        <span class="pricing-value">${costNo>0?costNo.toFixed(2)+' ฿':'(ยังไม่มีราคา)'}</span>
+      </div>
+      ${hasGarnish&&costAll>0?`<div class="pricing-row">
+        <span class="pricing-label" style="color:#8B6914">ต้นทุน (รวมตกแต่งแก้ว)</span>
+        <span class="pricing-value" style="color:#8B6914">${costAll.toFixed(2)} ฿</span>
+      </div>`:''}
+      <div style="font-size:12px;color:var(--brown-light);margin-bottom:4px">ราคาขาย (฿)</div>
+      <input class="sell-price-input" type="number" min="0" step="1" placeholder="ใส่ราคาขาย..."
+        value="${sell>0?sell:''}" oninput="onSellInput('${menu.name.replace(/'/g,"\'")}', this.value, this)">
+      ${sell>0?`
+      <div class="pricing-summary">
+      <div style="margin-top:10px;padding:8px 10px;background:#F5EFD8;border-radius:8px;margin-bottom:6px">
+        <div style="font-size:11px;font-weight:600;color:var(--brown-light);margin-bottom:4px">ไม่รวมตกแต่งแก้ว</div>
+        <div class="pricing-row" style="margin-bottom:4px">
+          <span class="pricing-label">กำไรต่อแก้ว</span>
+          <span class="pricing-value" style="color:${p1>=0?'var(--green)':'var(--red)'}">${p1.toFixed(2)} ฿</span>
+        </div>
+        <div class="margin-bar"><div class="margin-fill" style="width:${bw1}%;background:${mc1}"></div></div>
+        <div class="margin-pct" style="color:${mc1}">Margin ${m1.toFixed(1)}%</div>
+      </div>
+      ${hasGarnish?`<div style="padding:8px 10px;background:#FBF0E0;border-radius:8px;border:1px solid #E8D5A0">
+        <div style="font-size:11px;font-weight:600;color:#8B6914;margin-bottom:4px">รวมตกแต่งแก้ว</div>
+        <div class="pricing-row" style="margin-bottom:4px">
+          <span class="pricing-label">กำไรต่อแก้ว</span>
+          <span class="pricing-value" style="color:${p2>=0?'var(--green)':'var(--red)'}">${p2.toFixed(2)} ฿</span>
+        </div>
+        <div class="margin-bar"><div class="margin-fill" style="width:${bw2}%;background:${mc2}"></div></div>
+        <div class="margin-pct" style="color:${mc2}">Margin ${m2.toFixed(1)}%</div>
+      </div>`:''}
+      </div>
+      `:''}
+    </div>`;
+  }).join('');
+}
+function onSellInput(name, val, inputEl) {
+  const sell = parseFloat(val) || 0;
+  sellPrices[name] = sell;
+  try { localStorage.setItem('cafe2_sell', JSON.stringify(sellPrices)); } catch(e) {}
+
+  // Update profit/margin in this card immediately without full re-render
+  if (!inputEl) return;
+  const card = inputEl.closest('.pricing-card');
+  if (!card) return;
+
+  // Find cost from the card's cost display (already rendered)
+  const costEl = card.querySelector('.pricing-value');
+  const costText = costEl ? costEl.textContent.replace(' ฿','').trim() : '0';
+  const cost = parseFloat(costText) || 0;
+
+  // Remove old profit/margin section if exists
+  let summaryEl = card.querySelector('.pricing-summary');
+  if (summaryEl) summaryEl.remove();
+
+  if (sell > 0) {
+    const allM = [...MENUS.hot_coffee,...MENUS.coffee,...MENUS.tea,...MENUS.cocoa,...MENUS.milk,...MENUS.soda,...MENUS.smoothie,...MENUS.matcha];
+    const menuObj = allM.find(m=>m.name===name);
+    const costNo  = menuObj?menuObj.ingredients.filter(i=>!i.optional).reduce((s,i)=>s+getCPU(i.id)*i.amount,0):cost;
+    const costAll = menuObj?menuObj.ingredients.reduce((s,i)=>s+getCPU(i.id)*i.amount,0):cost;
+    const hasGarnish = menuObj&&menuObj.ingredients.some(i=>i.optional)&&costAll>costNo;
+    const p1=sell-costNo,m1=sell>0?(p1/sell)*100:0,bw1=Math.min(Math.max(m1,0),100);
+    const mc1=m1>=60?'var(--green)':m1>=40?'var(--gold)':'var(--red)';
+    const p2=sell-costAll,m2=sell>0?(p2/sell)*100:0,bw2=Math.min(Math.max(m2,0),100);
+    const mc2=m2>=60?'var(--green)':m2>=40?'var(--gold)':'var(--red)';
+    const div=document.createElement('div');
+    div.className='pricing-summary';
+    div.innerHTML=`
+      <div style="margin-top:10px;padding:8px 10px;background:#F5EFD8;border-radius:8px;margin-bottom:6px">
+        <div style="font-size:11px;font-weight:600;color:var(--brown-light);margin-bottom:4px">ไม่รวมตกแต่งแก้ว</div>
+        <div class="pricing-row" style="margin-bottom:4px">
+          <span class="pricing-label">กำไรต่อแก้ว</span>
+          <span class="pricing-value" style="color:${p1>=0?'var(--green)':'var(--red)'}">${p1.toFixed(2)} ฿</span>
+        </div>
+        <div class="margin-bar"><div class="margin-fill" style="width:${bw1}%;background:${mc1}"></div></div>
+        <div class="margin-pct" style="color:${mc1}">Margin ${m1.toFixed(1)}%</div>
+      </div>
+      ${hasGarnish?`<div style="padding:8px 10px;background:#FBF0E0;border-radius:8px;border:1px solid #E8D5A0">
+        <div style="font-size:11px;font-weight:600;color:#8B6914;margin-bottom:4px">รวมตกแต่งแก้ว</div>
+        <div class="pricing-row" style="margin-bottom:4px">
+          <span class="pricing-label">กำไรต่อแก้ว</span>
+          <span class="pricing-value" style="color:${p2>=0?'var(--green)':'var(--red)'}">${p2.toFixed(2)} ฿</span>
+        </div>
+        <div class="margin-bar"><div class="margin-fill" style="width:${bw2}%;background:${mc2}"></div></div>
+        <div class="margin-pct" style="color:${mc2}">Margin ${m2.toFixed(1)}%</div>
+      </div>`:''}`;
+    inputEl.insertAdjacentElement('afterend',div);
+  }
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+  if (tab === 'pricing') renderPricing();
+}
+
+// ============================================================
+// EXPORT EXCEL
+// ============================================================
+function exportExcel() {
+  // Load SheetJS dynamically then run
+  if (typeof XLSX === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    script.onload = () => _doExportExcel();
+    script.onerror = () => alert('❌ ไม่สามารถโหลด SheetJS ได้ กรุณาเชื่อมต่ออินเทอร์เน็ตก่อน');
+    document.head.appendChild(script);
+  } else {
+    _doExportExcel();
+  }
+}
+
+function _doExportExcel() {
+  const wb = XLSX.utils.book_new();
+
+  // ── Sheet 1: ราคาวัตถุดิบต้นทาง ──────────────────────────────────────────
+  const rawRows = [['วัตถุดิบ', 'หน่วย', 'หมวด', 'ราคาที่ซื้อ (฿)', 'ปริมาณที่ได้', 'ราคา/หน่วย (฿)']];
+  RAW_INGREDIENTS.forEach(ing => {
+    const bp  = rawBuyPrices[ing.id] || 0;
+    const bq  = rawBuyQtys[ing.id]   || 1;
+    const cpu = bq > 0 ? bp / bq : 0;
+    rawRows.push([ing.name, ing.unit, ing.group, bp, bq, parseFloat(cpu.toFixed(6))]);
+  });
+  const wsRaw = XLSX.utils.aoa_to_sheet(rawRows);
+  wsRaw['!cols'] = [{wch:32},{wch:8},{wch:20},{wch:16},{wch:14},{wch:16}];
+  _styleHeader(wsRaw, rawRows[0].length);
+  XLSX.utils.book_append_sheet(wb, wsRaw, 'วัตถุดิบต้นทาง');
+
+  // ── Sheet 2: วัตถุดิบผสม ─────────────────────────────────────────────────
+  const compRows = [['ชื่อสูตร', 'วัตถุดิบ', 'ปริมาณ', 'หน่วย', 'ต้นทุน (฿)', 'Yield', 'หน่วย Yield', 'ราคา/หน่วย Yield (฿)']];
+  COMPOUND.forEach(c => {
+    const yld = parseFloat(compoundYields[c.id]) || c.yieldQty;
+    let totalCost = 0;
+    c.recipe.forEach(r => {
+      const amtKey = c.id + '_' + r.id;
+      const amt  = parseFloat(compoundRecipeAmounts[amtKey]) || r.amount;
+      const cost = (rawCPU[r.id] || 0) * amt;
+      totalCost += cost;
+      compRows.push([c.name, r.label, amt, r.unit, parseFloat(cost.toFixed(4)), '', '', '']);
+    });
+    const cpu = yld > 0 ? totalCost / yld : 0;
+    compRows.push(['', 'รวม/batch', '', '', parseFloat(totalCost.toFixed(4)), yld, c.yieldUnit, parseFloat(cpu.toFixed(6))]);
+    compRows.push(['', '', '', '', '', '', '', '']);
+  });
+  const wsComp = XLSX.utils.aoa_to_sheet(compRows);
+  wsComp['!cols'] = [{wch:28},{wch:32},{wch:10},{wch:8},{wch:14},{wch:10},{wch:10},{wch:20}];
+  _styleHeader(wsComp, compRows[0].length);
+  XLSX.utils.book_append_sheet(wb, wsComp, 'วัตถุดิบผสม');
+
+  // ── Sheet 3: ต้นทุนเมนู ─────────────────────────────────────────────────
+  const allMenus = [...MENUS.hot_coffee, ...MENUS.coffee, ...MENUS.tea, ...MENUS.cocoa, ...MENUS.milk, ...MENUS.soda, ...MENUS.smoothie, ...MENUS.matcha];
+  const menuRows = [['หมวด', 'ชื่อเมนู', 'วัตถุดิบ', 'ปริมาณ', 'หน่วย', 'ต้นทุน (฿)', 'ต้นทุนรวม/แก้ว (฿)', 'ราคาขาย (฿)', 'กำไร (฿)', 'Margin (%)']];
+  allMenus.forEach(menu => {
+    let totalRequired = 0;
+    menu.ingredients.forEach((ing, idx) => {
+      const cpu  = getCPU(ing.id);
+      const cost = cpu * ing.amount;
+      if (!ing.optional) totalRequired += cost;
+      const sell   = parseFloat(sellPrices[menu.name]) || 0;
+      const profit = sell > 0 ? sell - totalRequired : 0;
+      const margin = sell > 0 ? (profit / sell) * 100 : 0;
+      menuRows.push([
+        idx === 0 ? menu.category : '',
+        idx === 0 ? menu.name     : '',
+        ing.label,
+        ing.amount,
+        ing.unit,
+        parseFloat(cost.toFixed(4)),
+        idx === 0 ? parseFloat(totalRequired.toFixed(2)) : '',
+        idx === 0 && sell > 0 ? sell : '',
+        idx === 0 && sell > 0 ? parseFloat(profit.toFixed(2)) : '',
+        idx === 0 && sell > 0 ? parseFloat(margin.toFixed(1)) : '',
+      ]);
+    });
+    menuRows.push(['','','','','','','','','','']);
+  });
+  const wsMenu = XLSX.utils.aoa_to_sheet(menuRows);
+  wsMenu['!cols'] = [{wch:10},{wch:24},{wch:32},{wch:10},{wch:8},{wch:14},{wch:18},{wch:14},{wch:12},{wch:12}];
+  _styleHeader(wsMenu, menuRows[0].length);
+  XLSX.utils.book_append_sheet(wb, wsMenu, 'ต้นทุนเมนู');
+
+  // ── Sheet 4: สรุปราคาขาย ─────────────────────────────────────────────────
+  const sumRows = [['หมวด', 'ชื่อเมนู', 'ต้นทุน/แก้ว (฿)', 'ราคาขาย (฿)', 'กำไร (฿)', 'Margin (%)']];
+  allMenus.forEach(menu => {
+    const cost   = menu.ingredients.filter(i => !i.optional).reduce((s, i) => s + getCPU(i.id) * i.amount, 0);
+    const sell   = parseFloat(sellPrices[menu.name]) || 0;
+    const profit = sell > 0 ? sell - cost : 0;
+    const margin = sell > 0 ? (profit / sell) * 100 : 0;
+    sumRows.push([
+      menu.category,
+      menu.name,
+      parseFloat(cost.toFixed(2)),
+      sell > 0 ? sell : '',
+      sell > 0 ? parseFloat(profit.toFixed(2)) : '',
+      sell > 0 ? parseFloat(margin.toFixed(1)) : '',
+    ]);
+  });
+  const wsSum = XLSX.utils.aoa_to_sheet(sumRows);
+  wsSum['!cols'] = [{wch:10},{wch:24},{wch:18},{wch:14},{wch:12},{wch:12}];
+  _styleHeader(wsSum, sumRows[0].length);
+  XLSX.utils.book_append_sheet(wb, wsSum, 'สรุปราคาขาย');
+
+  // ── Download ──────────────────────────────────────────────────────────────
+  const date = new Date().toLocaleDateString('th-TH').replace(/\//g,'-');
+  XLSX.writeFile(wb, `rai-phu-pha-cafe-${date}.xlsx`);
+}
+
+function _styleHeader(ws, colCount) {
+  // Bold + fill header row
+  for (let c = 0; c < colCount; c++) {
+    const cell = XLSX.utils.encode_cell({r:0, c});
+    if (!ws[cell]) continue;
+    ws[cell].s = {
+      font: { bold: true, color: { rgb: 'FDFAF4' } },
+      fill: { fgColor: { rgb: '2C1A0E' } },
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+    };
+  }
+}
+
+// ============================================================
+// EXPORT / IMPORT
+// ============================================================
+function exportData() {
+  // Read all current input values first
+  RAW_INGREDIENTS.forEach(ing => {
+    const bpEl = document.getElementById('rbp_' + ing.id);
+    const bqEl = document.getElementById('rbq_' + ing.id);
+    if (bpEl) rawBuyPrices[ing.id] = parseFloat(bpEl.value) || 0;
+    if (bqEl) rawBuyQtys[ing.id]   = parseFloat(bqEl.value) || 1;
+  });
+  COMPOUND.forEach(c => {
+    if (c.editableYield) {
+      const el = document.getElementById('cyield_' + c.id);
+      if (el) compoundYields[c.id] = parseFloat(el.value) || c.yieldQty;
+    }
+    c.recipe.forEach(r => {
+      const amtKey = c.id + '_' + r.id;
+      const el = document.getElementById('cramount_' + amtKey);
+      if (el) compoundRecipeAmounts[amtKey] = parseFloat(el.value) || r.amount;
+    });
+  });
+
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    rawBuyPrices,
+    rawBuyQtys,
+    rawBrands,
+    rawChecked,
+    compoundYields,
+    compoundRecipeAmounts,
+    sellPrices,
+  };
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'rai-phu-pha-cafe-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.version) throw new Error('ไฟล์ไม่ถูกต้อง');
+      rawBuyPrices         = data.rawBuyPrices         || {};
+      rawBrands            = data.rawBrands            || {};
+      rawChecked           = data.rawChecked           || {};
+      rawBuyQtys           = data.rawBuyQtys           || {};
+      compoundYields       = data.compoundYields       || {};
+      compoundRecipeAmounts= data.compoundRecipeAmounts|| {};
+      sellPrices           = data.sellPrices           || {};
+      // Save to localStorage
+      try {
+        localStorage.setItem('cafe2_raw',             JSON.stringify({ bp: rawBuyPrices, bq: rawBuyQtys }));
+        localStorage.setItem('cafe2_compound_yields', JSON.stringify(compoundYields));
+        localStorage.setItem('cafe2_compound_amounts',JSON.stringify(compoundRecipeAmounts));
+        localStorage.setItem('cafe2_sell',            JSON.stringify(sellPrices));
+      } catch(err) {}
+      recalcAll();
+      renderRawTable();
+      renderCompoundCards();
+      renderAllMenus();
+      alert('✅ โหลดข้อมูลสำเร็จ!\nราคาวัตถุดิบและราคาขายถูกนำเข้าเรียบร้อยแล้ว');
+    } catch(err) {
+      alert('❌ เกิดข้อผิดพลาด: ' + err.message + '\nกรุณาเลือกไฟล์ JSON ที่ Export มาจากโปรแกรมนี้เท่านั้น');
+    }
+    event.target.value = ''; // reset input เพื่อ import ซ้ำได้
+  };
+  reader.readAsText(file);
+}
+
+
+// ============================================================
+// DRAG & DROP — ย้ายตำแหน่งการ์ดเมนู
+// ============================================================
+function initDragAndDrop() {
+  document.querySelectorAll('.menu-grid').forEach(grid => {
+    enableDragOnGrid(grid);
+  });
+}
+
+function enableDragOnGrid(grid) {
+  let dragging = null;
+
+  grid.querySelectorAll('.menu-card').forEach(card => {
+    card.setAttribute('draggable', 'true');
+
+    card.addEventListener('dragstart', e => {
+      dragging = card;
+      setTimeout(() => card.classList.add('dragging'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+      grid.querySelectorAll('.menu-card').forEach(c => c.classList.remove('drag-over'));
+      dragging = null;
+      // บันทึกลำดับใหม่ใน MENUS (in-memory เท่านั้น ไม่กระทบ code จริง)
+      syncMenuOrder(grid);
+    });
+
+    card.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (dragging && card !== dragging) {
+        card.classList.add('drag-over');
+        const allCards = [...grid.querySelectorAll('.menu-card')];
+        const dragIdx = allCards.indexOf(dragging);
+        const overIdx = allCards.indexOf(card);
+        if (dragIdx < overIdx) {
+          grid.insertBefore(dragging, card.nextSibling);
+        } else {
+          grid.insertBefore(dragging, card);
+        }
+      }
+    });
+
+    card.addEventListener('dragleave', () => {
+      card.classList.remove('drag-over');
+    });
+
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+    });
+
+    // Mobile: touch support
+    let touchStartY = 0, touchCard = null;
+    card.addEventListener('touchstart', e => {
+      touchCard = card;
+      touchStartY = e.touches[0].clientY;
+      card.classList.add('dragging');
+    }, { passive: true });
+
+    card.addEventListener('touchmove', e => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      const overCard = target ? target.closest('.menu-card') : null;
+      if (overCard && overCard !== card && overCard.closest('.menu-grid') === grid) {
+        const allCards = [...grid.querySelectorAll('.menu-card')];
+        const dragIdx = allCards.indexOf(card);
+        const overIdx = allCards.indexOf(overCard);
+        if (dragIdx < overIdx) grid.insertBefore(card, overCard.nextSibling);
+        else grid.insertBefore(card, overCard);
+      }
+    }, { passive: false });
+
+    card.addEventListener('touchend', () => {
+      card.classList.remove('dragging');
+      syncMenuOrder(grid);
+    });
+  });
+}
+
+function syncMenuOrder(grid) {
+  // อัปเดต MENUS array ให้ตรงกับลำดับ DOM
+  const gridId = grid.id; // e.g. 'grid-coffee'
+  const cat = gridId.replace('grid-', '');
+  const menuKey = cat === 'hot_coffee' ? 'hot_coffee' : cat;
+  if (!MENUS[menuKey]) return;
+  const newOrder = [...grid.querySelectorAll('.menu-card')].map(card => {
+    const name = card.querySelector('.card-menu-name')?.textContent?.trim();
+    return MENUS[menuKey].find(m => m.name === name);
+  }).filter(Boolean);
+  if (newOrder.length === MENUS[menuKey].length) {
+    MENUS[menuKey] = newOrder;
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+// ── Safe init: รอ DOM พร้อมก่อน และ catch error ──────────────────────
+function initApp() {
+  try {
+    // Clear corrupted localStorage keys if any
+    try {
+      const testKeys = ['cafe2_raw','cafe2_compound_yields','cafe2_compound_amounts','cafe2_brands','cafe2_sell'];
+      testKeys.forEach(k => {
+        const v = localStorage.getItem(k);
+        if (v) JSON.parse(v); // will throw if corrupted
+      });
+    } catch(parseErr) {
+      console.warn('Corrupted localStorage detected, clearing:', parseErr.message);
+      ['cafe2_raw','cafe2_compound_yields','cafe2_compound_amounts','cafe2_brands','cafe2_sell']
+        .forEach(k => { try { localStorage.removeItem(k); } catch(e) {} });
+    }
+    loadData();
+    renderRawTable();
+    renderCompoundCards();
+    renderAllMenus();
+  } catch(err) {
+    console.error('App init error:', err);
+    document.body.innerHTML += '<div style="position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#c0392b;color:white;padding:16px 24px;border-radius:10px;z-index:9999;font-family:sans-serif;max-width:90%">⚠️ เกิดข้อผิดพลาด: ' + err.message + '<br><small>กรุณา reload หน้าใหม่</small></div>';
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+</script>
+</body>
+</html>
